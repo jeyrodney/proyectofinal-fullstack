@@ -1,22 +1,25 @@
-// src/pages/public/Home.tsx
 import { Link } from 'react-router-dom';
 
-function Home() {
+export default function Home() {
   return (
-    <div style={{ padding: '2rem', textAlign: 'center' }}>
-      <h1>Bienvenido a RedComex</h1>
-      <p>Facilitamos las exportaciones de las PYMEs colombianas</p>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
+      <h1 className="text-4xl font-bold text-blue-700 mb-4">Bienvenido a RedComex</h1>
+      <p className="text-lg text-gray-700 mb-8">
+        Facilitamos las exportaciones de las PYMEs colombianas
+      </p>
 
-      <div style={{ marginTop: '2rem' }}>
+      <div className="flex space-x-4">
         <Link to="/login">
-          <button style={{ margin: '1rem', padding: '0.5rem 1.5rem' }}>Iniciar Sesión</button>
+          <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+            Iniciar Sesión
+          </button>
         </Link>
         <Link to="/registro">
-          <button style={{ margin: '1rem', padding: '0.5rem 1.5rem' }}>Registrarse</button>
+          <button className="bg-gray-300 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-400 transition duration-200">
+            Registrarse
+          </button>
         </Link>
       </div>
     </div>
   );
 }
-
-export default Home;

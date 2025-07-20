@@ -19,16 +19,16 @@ export default function AgregarExportacion() {
   const [paises, setPaises] = useState<Pais[]>([]);
   const [productos, setProductos] = useState<Producto[]>([]);
   const [empresas, setEmpresas] = useState<Empresa[]>([]);
-  const [form, setForm] = useState({
-    cantidad: '',
-    fecha_exp: '',
-    valor_unitario: '',
-    tasa_cambio: '',
-    estado_exportacion: '',
-    fk_empresa: '',
-    fk_producto: '',
-    fk_pais: ''
-  });
+
+  const [pais, setPais] = useState('');
+  const [producto, setProducto] = useState('');
+  const [empresa, setEmpresa] = useState('');
+  const [cantidad, setCantidad] = useState('');
+  const [fecha, setFecha] = useState('');
+  const [valorUnitario, setValorUnitario] = useState('');
+  const [estado, setEstado] = useState('');
+
+  const usuarioInfo = JSON.parse(localStorage.getItem('usuario') || '{}');
 
   useEffect(() => {
     fetch('http://localhost:4567/paises')
@@ -39,87 +39,97 @@ export default function AgregarExportacion() {
       .then(res => res.json())
       .then(data => setProductos(data));
 
-    const usuarioInfo = JSON.parse(localStorage.getItem('usuario') || '{}');
-    if (!usuarioInfo || !usuarioInfo.correo) {
-      alert('No se encontró información del usuario. Vuelva a iniciar sesión.');
-      return;
+    // Cargar empresas del usuario autenticado
+    if (usuarioInfo && usuarioInfo.correo) {
+      fetch(`http://localhost:4567/empresas-usuario/${usuarioInfo.correo}`)
+        .then(res => res.json())
+        .then(data => setEmpresas(data));
     }
-
-    fetch(`http://localhost:4567/empresas-usuario/${usuarioInfo.correo}`)
-      .then(res => res.json())
-      .then(data => setEmpresas(data));
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const manejarEnvio = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const body = {
-      cantidad: parseInt(form.cantidad),
-      fecha_exp: form.fecha_exp,
-      valor_unitario: parseFloat(form.valor_unitario),
-      tasa_cambio: parseFloat(form.tasa_cambio),
-      estado_exportacion: form.estado_exportacion,
-      fk_empresa: parseInt(form.fk_empresa),
-      fk_producto: parseInt(form.fk_producto),
-      fk_pais: parseInt(form.fk_pais)
+    const exportacion = {
+      cantidad: parseInt(cantidad),
+      fechaExp: fecha,
+      valorUnitario: parseFloat(valorUnitario),
+      estadoExportacion: estado,
+      fkEmpresa: parseInt(empresa),
+      fkProducto: parseInt(producto),
+      fkPais: parseInt(pais)
     };
 
-    const response = await fetch('http://localhost:4567/registrar-exportacion', {
+    const res = await fetch('http://localhost:4567/exportacion', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+      body: JSON.stringify(exportacion)
     });
 
-    const data = await response.json();
-    alert(data.mensaje || data.error);
+    const resultado = await res.json();
+    alert(resultado.mensaje || resultado.error);
   };
 
   return (
     <div>
-      <h2>Registrar Exportación</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Cantidad:</label><br />
-        <input name="cantidad" value={form.cantidad} onChange={handleChange} type="number" required /><br /><br />
-
-        <label>Fecha de Exportación:</label><br />
-        <input name="fecha_exp" value={form.fecha_exp} onChange={handleChange} type="date" required /><br /><br />
-
-        <label>Valor Unitario:</label><br />
-        <input name="valor_unitario" value={form.valor_unitario} onChange={handleChange} type="number" step="0.01" required /><br /><br />
-
-        <label>Tasa de Cambio:</label><br />
-        <input name="tasa_cambio" value={form.tasa_cambio} onChange={handleChange} type="number" step="0.000001" required /><br /><br />
-
-        <label>Estado de Exportación:</label><br />
-        <input name="estado_exportacion" value={form.estado_exportacion} onChange={handleChange} required /><br /><br />
-
+      <h2>Agregar Exportación</h2>
+      <form onSubmit={manejarEnvio}>
         <label>Empresa:</label><br />
-        <select name="fk_empresa" value={form.fk_empresa} onChange={handleChange} required>
+        <select value={empresa} onChange={e => setEmpresa(e.target.value)} required>
           <option value="">Seleccione una empresa</option>
-          {empresas.map(e => (
-            <option key={e.idEmpresa} value={e.idEmpresa}>{e.nombre}</option>
+          {empresas.map(emp => (
+            <option key={emp.idEmpresa} value={emp.idEmpresa}>{emp.nombre}</option>
           ))}
         </select><br /><br />
 
         <label>Producto:</label><br />
-        <select name="fk_producto" value={form.fk_producto} onChange={handleChange} required>
+        <select value={producto} onChange={e => setProducto(e.target.value)} required>
           <option value="">Seleccione un producto</option>
           {productos.map(p => (
             <option key={p.idProducto} value={p.idProducto}>{p.nombre}</option>
           ))}
         </select><br /><br />
 
-        <label>País de Destino:</label><br />
-        <select name="fk_pais" value={form.fk_pais} onChange={handleChange} required>
+        <label>País destino:</label><br />
+        <select value={pais} onChange={e => setPais(e.target.value)} required>
           <option value="">Seleccione un país</option>
           {paises.map(p => (
             <option key={p.idPais} value={p.idPais}>{p.nombre}</option>
           ))}
         </select><br /><br />
+
+        <label>Cantidad:</label><br />
+        <input
+          type="number"
+          value={cantidad}
+          onChange={e => setCantidad(e.target.value)}
+          required
+        /><br /><br />
+
+        <label>Fecha de Exportación:</label><br />
+        <input
+          type="date"
+          value={fecha}
+          onChange={e => setFecha(e.target.value)}
+          required
+        /><br /><br />
+
+        <label>Valor Unitario:</label><br />
+        <input
+          type="number"
+          step="0.01"
+          value={valorUnitario}
+          onChange={e => setValorUnitario(e.target.value)}
+          required
+        /><br /><br />
+
+        <label>Estado de Exportación:</label><br />
+        <input
+          type="text"
+          value={estado}
+          onChange={e => setEstado(e.target.value)}
+          required
+        /><br /><br />
 
         <button type="submit">Registrar Exportación</button>
       </form>

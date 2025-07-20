@@ -10,6 +10,7 @@ import ReporteExportaciones from '../pages/reportes/ReporteExportaciones';
 import MenuAdmin from '../pages/admin/MenuAdmin';
 import NuevoAdmin from '../pages/admin/NuevoAdmin';
 import ModificarArancel from '../pages/admin/ModificarArancel';
+import ActualizarTasaCambio from '../pages/admin/ActualizarTasaCambio';
 // puedes agregar otros como MenuUsuario, MenuAdmin cuando estén listos
 
 function AppRouter() {
@@ -25,6 +26,7 @@ function AppRouter() {
       <Route path='/menu-admin' element={<MenuAdmin />} />
       <Route path='/nuevo-admin' element={<NuevoAdmin />} />
       <Route path="/modificar-arancel" element={<ModificarArancel />} />
+      <Route path="/actualizar-tasa-cambio" element={<ActualizarTasaCambio />} />
       {/* <Route path="/dashboard/user" element={<MenuUsuario />} />
       <Route path="/dashboard/admin" element={<MenuAdmin />} /> */}
     </Routes>

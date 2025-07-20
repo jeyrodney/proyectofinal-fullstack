@@ -6,7 +6,7 @@ import java.sql.Date;
 public class Exportacion {
     private int idExportacion;
     private int cantidad;
-    private Date fechaExp;
+    private String fechaExp;
     private BigDecimal valorUnitario;
     private BigDecimal tasaCambio;
     private BigDecimal total;
@@ -21,7 +21,7 @@ public class Exportacion {
     public Exportacion() {}
 
     // Constructor completo
-    public Exportacion(int cantidad, Date fechaExp, BigDecimal valorUnitario,
+    public Exportacion(int cantidad, String fechaExp, BigDecimal valorUnitario,
                        BigDecimal tasaCambio, BigDecimal total, BigDecimal totalMonedaDestino,
                        BigDecimal costoArancel, String estadoExportacion,
                        int fkEmpresa, int fkProducto, int fkPais) {
@@ -41,7 +41,7 @@ public class Exportacion {
     // Getters
     public int getIdExportacion() { return idExportacion; }
     public int getCantidad() { return cantidad; }
-    public Date getFechaExp() { return fechaExp; }
+    public String getFechaExp() { return fechaExp; }
     public BigDecimal getValorUnitario() { return valorUnitario; }
     public BigDecimal getTasaCambio() { return tasaCambio; }
     public BigDecimal getTotal() { return total; }
@@ -55,7 +55,7 @@ public class Exportacion {
     // Setters (opcional, si se requiere actualizar valores)
     public void setIdExportacion(int idExportacion) { this.idExportacion = idExportacion; }
     public void setCantidad(int cantidad) { this.cantidad = cantidad; }
-    public void setFechaExp(Date fechaExp) { this.fechaExp = fechaExp; }
+    public void setFechaExp(String fechaExp) { this.fechaExp = fechaExp; }
     public void setValorUnitario(BigDecimal valorUnitario) { this.valorUnitario = valorUnitario; }
     public void setTasaCambio(BigDecimal tasaCambio) { this.tasaCambio = tasaCambio; }
     public void setTotal(BigDecimal total) { this.total = total; }

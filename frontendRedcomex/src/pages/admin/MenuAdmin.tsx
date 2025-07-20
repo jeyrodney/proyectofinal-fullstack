@@ -30,6 +30,7 @@ const MenuAdmin = () => {
 
       <button onClick={() => navigate('/nuevo-admin')}>Agregar Administrador</button>
       <button onClick={() => navigate('/modificar-arancel')}>Modificar Aranceles</button>
+      <button onClick={() => navigate('/actualizar-tasa-cambio')}>Actualizar Tasa de Cambio</button><br /><br />
       <button onClick={() => navigate('/reporte-admin')}>Generar Reporte</button>
       <button onClick={handleLogout}>Cerrar sesión</button>
     </div>

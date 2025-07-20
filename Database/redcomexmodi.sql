@@ -49,7 +49,8 @@ CREATE TABLE pais (
     nombre VARCHAR(30) UNIQUE NOT NULL,
     codigo_iso VARCHAR(30) UNIQUE NOT NULL,
     moneda_nombre VARCHAR(30) NOT NULL,
-    moneda_codigo_iso VARCHAR(5) NOT NULL
+    moneda_codigo_iso VARCHAR(5) NOT NULL,
+    tasa_cambio DECIMAL(12, 6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE exportacion (
@@ -60,7 +61,7 @@ CREATE TABLE exportacion (
     tasa_cambio DECIMAL(12, 6),
     total DECIMAL(14, 2),
     total_moneda_destino DECIMAL(14, 2),
-    costo_arancel DECIMAL(12, 2),
+    tasa_arancel DECIMAL(12, 2),
     estado_exportacion VARCHAR(30),
     fk_empresa INT NOT NULL,
     fk_producto INT NOT NULL,

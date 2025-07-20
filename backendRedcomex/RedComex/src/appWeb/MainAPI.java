@@ -153,15 +153,15 @@ public class MainAPI {
             return gson.toJson(respuesta);
         });
 
-        post("/registrar-exportacion", (req, res) -> {
+        post("/exportacion", (req, res) -> {
             Exportacion exportacion = gson.fromJson(req.body(), Exportacion.class);
             ExportacionDAO dao = new ExportacionDAO();
 
             boolean registrado = dao.registrarExportacion(exportacion);
-
+            System.out.println("Id pais en endpoint exportacion: " + exportacion.getFkPais());
             Map<String, Object> respuesta = new HashMap<>();
             if (registrado) {
-                respuesta.put("mensaje", "Exportación registrada correctamente");
+                respuesta.put("mensaje", "Exportación registrada exitosamente");
                 res.status(200);
             } else {
                 respuesta.put("error", "No se pudo registrar la exportación");
@@ -176,6 +176,38 @@ public class MainAPI {
             EmpresaDAO empresaDAO = new EmpresaDAO();
             List<Empresa> empresas = empresaDAO.obtenerEmpresasPorCorreo(correo);
             return gson.toJson(empresas);
+        });
+
+        // Endpoint actualizar-tasa-cambio
+        put("/actualizar-tasa-cambio", (req, res) -> {
+            System.out.println("Entró al endpoint actualizar-tasa.cambio");
+            Pais pais = gson.fromJson(req.body(), Pais.class);
+            PaisDAO dao = new PaisDAO();
+            boolean actualizado = dao.actualizarTasaCambio(pais.getIdPais(), pais.getTasaCambio());
+
+            Map<String, Object> respuesta = new HashMap<>();
+            if (actualizado) {
+                respuesta.put("mensaje", "Tasa de cambio actualizada correctamente");
+                res.status(200);
+            } else {
+                respuesta.put("error", "No se pudo actualizar la tasa de cambio");
+                res.status(500);
+            }
+            return gson.toJson(respuesta);
+        });
+
+        get("/pais/:id", (req, res) -> {
+            int id = Integer.parseInt(req.params(":id"));
+            PaisDAO dao = new PaisDAO();
+            Pais pais = dao.obtenerPaisPorId(id);
+
+            if (pais != null) {
+                res.type("application/json");
+                return gson.toJson(pais);
+            } else {
+                res.status(404);
+                return gson.toJson(Map.of("error", "País no encontrado"));
+            }
         });
 
         // Endpoint adicional opcional
