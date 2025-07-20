@@ -26,10 +26,12 @@ public class UsuarioDAO {
 
             filasAfectadas = stmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error al registrar el usuario " + e.getMessage());
-            e.printStackTrace();
-            System.out.println("Saliendo del programa desde dao.UsuarioDAO.registroUsuario");
-            System.exit(0); //en caso de que haya un error en el query, salirse del programa, esto sería un error fatal.
+            if (e.getMessage().contains("Duplicate entry")) {
+                return -1; // Código especial para indicar que ya existe el correo
+            } else {
+                e.printStackTrace();
+                return 0; // Otro error de SQL
+            }
         }
         return filasAfectadas;
 
@@ -39,7 +41,7 @@ public class UsuarioDAO {
         PreparedStatement pstmt = null; // PreparedStatement para preparar el query
         ResultSet rs = null; // ResultSet para almacenar la respuesta del query
         Usuario usuario = null; //inicializo usuario en null por si el query no devuelve nada, en casod e que si, se inicializa con el resultado del query
-        String sql = "SELECT tipo_documento, documento, nombre, correo, celular, password_user, fk_rol FROM usuario WHERE correo = ?";
+        String sql = "SELECT usuario_id, tipo_documento, documento, nombre, correo, celular, password_user, fk_rol FROM usuario WHERE correo = ?";
         try (Connection conn = ConectorBaseDatos.getConnection();
 
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -58,14 +60,14 @@ public class UsuarioDAO {
 
                     if (resultadoPass) { //si el password es correcto
                         //se inicializa usuario con el resultado ok del query
-                        usuario = new Usuario(rs.getString("tipo_documento"), rs.getString("documento"),
+                        usuario = new Usuario(rs.getInt("usuario_id"), rs.getString("tipo_documento"), rs.getString("documento"),
                                 rs.getString("nombre"), rs.getString("correo"), rs.getString("celular"), rs.getString("password_user"), rs.getInt("fk_rol"));
 
                     } else {
                         System.err.println("Password erroneo");
                     }
                 } else {
-                    System.err.println("Correo erroneo");
+                    System.err.println("Correo erroneo: " + correo);
                 }
             }
             ConectorBaseDatos.closeResources(conn, pstmt, rs);

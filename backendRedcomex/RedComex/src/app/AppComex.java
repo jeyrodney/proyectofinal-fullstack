@@ -1,6 +1,7 @@
 package app;
 
 import modelo.Usuario;
+import seguridad.RegistroUsuario;
 
 import java.util.Scanner;
 
@@ -58,12 +59,14 @@ public class AppComex {
             System.out.println("Contraseña:");
             String passwordUser = sc.nextLine();
 
-            Usuario usuario = new Usuario(tipoDocumento, numDocumento, nombre, correo, celular, passwordUser, 2);
+            int usuarioId = 0;
+
+            Usuario usuario = new Usuario(usuarioId, tipoDocumento, numDocumento, nombre, correo, celular, passwordUser, 2);
 
             RegistroUsuario registroUsuario = new RegistroUsuario();
-            boolean regExitoso = registroUsuario.registro(usuario);
+            int regExitoso = registroUsuario.registro(usuario);
 
-            if(regExitoso){
+            if(regExitoso == 1){
                 Login login = new Login(); //creo un objeto app.Login
                 usuario = login.login(usuario.getCorreo(),usuario.getPasswordUser()); //con el objeto app.Login, voy al metodo login que devuelve los datos del usuario si lo encuentra en BD
                 if(usuario != null){ //si encontró el usuario (no es null el objeto usuario)

@@ -1,6 +1,7 @@
 package modelo;
 
 public class Usuario {
+    private int usuarioId;
     private String tipoDocumento;
     private String numDocumento;
     private String nombre;
@@ -9,8 +10,8 @@ public class Usuario {
     private String passwordUser;
     private int rol;
 
-    public Usuario(String tipoDocumento, String numDocumento, String nombre, String correo, String celular, String passwordUser, int rol){
-
+    public Usuario(int usuarioId, String tipoDocumento, String numDocumento, String nombre, String correo, String celular, String passwordUser, int rol){
+        this.usuarioId = usuarioId;
         this.tipoDocumento = tipoDocumento;
         this.numDocumento = numDocumento;
         this.nombre = nombre;
@@ -20,6 +21,7 @@ public class Usuario {
         this.rol = rol;
     }
 
+    public int getUsuarioId() {return usuarioId;}
     public String getTipoDocumento(){return tipoDocumento;}
     public String getNumDocumento(){return numDocumento;}
     public String getNombre(){return nombre;}
@@ -28,6 +30,7 @@ public class Usuario {
     public String getPasswordUser(){return passwordUser;}
     public int getRol(){return rol;}
 
+    public void setRol(int rol) { this.rol = rol; }
     public void setPasswordUser(String passwordUser){
         this.passwordUser = passwordUser;
     }
