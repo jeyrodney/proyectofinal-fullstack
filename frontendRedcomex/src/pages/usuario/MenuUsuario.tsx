@@ -1,14 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { LogOut, Briefcase, Truck, FileText } from 'lucide-react';
 
-export default function MenuUsuario() {
+function MenuUsuario() {
   const navigate = useNavigate();
   const [usuario, setUsuario] = useState<{ usuario: string; correo: string } | null>(null);
-
-  const cerrarSesion = () => {
-    localStorage.removeItem('usuario');
-    navigate('/');
-  };
 
   useEffect(() => {
     const datos = localStorage.getItem('usuario');
@@ -21,52 +17,69 @@ export default function MenuUsuario() {
     }
   }, []);
 
+  const cerrarSesion = () => {
+    localStorage.removeItem('usuario');
+    navigate('/');
+  };
+
   const manejarNavegacion = (ruta: string) => {
     navigate(ruta);
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-4">
-      <div className="max-w-xl mx-auto bg-white shadow-md rounded-lg p-6">
-        {usuario && (
-          <div className="bg-blue-100 text-blue-800 px-4 py-3 rounded mb-6 text-sm">
-            <p><strong>Bienvenido:</strong> {usuario.usuario} | <strong>Correo:</strong> {usuario.correo}</p>
-          </div>
-        )}
-
-        <h1 className="text-2xl font-semibold text-center text-gray-800 mb-6">Menú del Usuario</h1>
-
-        <div className="flex flex-col gap-4">
-          <button
-            onClick={() => manejarNavegacion('/crear-empresa')}
-            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition"
-          >
-            Agregar Empresa
-          </button>
-
-          <button
-            onClick={() => manejarNavegacion('/agregar-exportacion')}
-            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition"
-          >
-            Agregar Exportación
-          </button>
-
-          <button
-            onClick={() => manejarNavegacion('/reporte-exportaciones')}
-            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition"
-          >
-            Generar Reporte Exportaciones
-          </button>
-
-          <button
-            onClick={cerrarSesion}
-            className="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded transition mt-4"
-          >
-            Cerrar sesión
-          </button>
+    <div className="min-h-screen bg-gray-50 text-gray-800">
+      {/* Header */}
+      <header className="bg-indigo-600 text-white px-8 py-4 flex justify-between items-center shadow-md">
+        <div>
+          <h1 className="text-2xl font-bold">Menú del Usuario</h1>
+          {usuario && (
+            <p className="text-sm text-indigo-200">
+              Bienvenido <strong>{usuario.usuario}</strong> | {usuario.correo}
+            </p>
+          )}
         </div>
-      </div>
+        <button
+          onClick={cerrarSesion}
+          className="flex items-center bg-red-500 hover:bg-red-600 px-4 py-2 rounded transition text-sm"
+        >
+          <LogOut className="w-4 h-4 mr-2" />
+          Cerrar sesión
+        </button>
+      </header>
+
+      {/* Opciones */}
+      <main className="px-6 py-10 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div
+            className="bg-white shadow hover:shadow-lg rounded-lg p-6 cursor-pointer border border-gray-100 transition"
+            onClick={() => manejarNavegacion('/crear-empresa')}
+          >
+            <Briefcase className="text-indigo-600 w-6 h-6 mb-2" />
+            <h3 className="font-bold text-lg">Agregar Empresa</h3>
+            <p className="text-sm text-gray-600 mt-1">Registrar una nueva empresa vinculada a tu usuario.</p>
+          </div>
+
+          <div
+            className="bg-white shadow hover:shadow-lg rounded-lg p-6 cursor-pointer border border-gray-100 transition"
+            onClick={() => manejarNavegacion('/agregar-exportacion')}
+          >
+            <Truck className="text-green-600 w-6 h-6 mb-2" />
+            <h3 className="font-bold text-lg">Agregar Exportación</h3>
+            <p className="text-sm text-gray-600 mt-1">Registra una nueva exportación de tus productos.</p>
+          </div>
+
+          <div
+            className="bg-white shadow hover:shadow-lg rounded-lg p-6 cursor-pointer border border-gray-100 transition"
+            onClick={() => manejarNavegacion('/reporte-exportaciones')}
+          >
+            <FileText className="text-blue-600 w-6 h-6 mb-2" />
+            <h3 className="font-bold text-lg">Reporte de Exportaciones</h3>
+            <p className="text-sm text-gray-600 mt-1">Consulta el resumen de tus exportaciones registradas.</p>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
 
+export default MenuUsuario;

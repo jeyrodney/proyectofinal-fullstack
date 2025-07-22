@@ -46,73 +46,106 @@ const NuevoUsuario = () => {
     }
   };
 
-  const handleCancel = () => {navigate('/');};
+  const handleCancel = () => {
+    navigate('/');
+  };
 
   return (
-    <div>
-      <h2>Registro de Nuevo Usuario</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Tipo de Documento:</label>
-          <select name="tipoDocumento" value={formData.tipoDocumento} onChange={handleChange}>
-            <option value="Cédula">Cédula</option>
-            <option value="Pasaporte">Pasaporte</option>
-          </select>
-        </div>
-        <div>
-          <label>Número de Documento:</label>
-          <input
-            type="text"
-            name="numDocumento"
-            value={formData.numDocumento}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Nombre Completo:</label>
-          <input
-            type="text"
-            name="nombre"
-            value={formData.nombre}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Correo Electrónico:</label>
-          <input
-            type="email"
-            name="correo"
-            value={formData.correo}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Celular:</label>
-          <input
-            type="text"
-            name="celular"
-            value={formData.celular}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Contraseña:</label>
-          <input
-            type="password"
-            name="passwordUser"
-            value={formData.passwordUser}
-            onChange={handleChange}
-            required
-          />
-        </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg">
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Registro de Nuevo Usuario</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
 
-        <button type="submit">Registrar</button>
-        <button onClick={handleCancel}>Cancelar</button>
-      </form>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Tipo de Documento:</label>
+            <select
+              name="tipoDocumento"
+              value={formData.tipoDocumento}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            >
+              <option value="Cédula">Cédula</option>
+              <option value="Pasaporte">Pasaporte</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Número de Documento:</label>
+            <input
+              type="text"
+              name="numDocumento"
+              value={formData.numDocumento}
+              onChange={handleChange}
+              required
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Nombre Completo:</label>
+            <input
+              type="text"
+              name="nombre"
+              value={formData.nombre}
+              onChange={handleChange}
+              required
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Correo Electrónico:</label>
+            <input
+              type="email"
+              name="correo"
+              value={formData.correo}
+              onChange={handleChange}
+              required
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Celular:</label>
+            <input
+              type="text"
+              name="celular"
+              value={formData.celular}
+              onChange={handleChange}
+              required
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Contraseña:</label>
+            <input
+              type="password"
+              name="passwordUser"
+              value={formData.passwordUser}
+              onChange={handleChange}
+              required
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            />
+          </div>
+
+          <div className="flex justify-between pt-4">
+            <button
+              type="submit"
+              className="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded transition"
+            >
+              Registrar
+            </button>
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="bg-gray-400 hover:bg-gray-500 text-white font-medium px-4 py-2 rounded transition"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

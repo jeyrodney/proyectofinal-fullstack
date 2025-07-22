@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Pais {
   idPais: number;
@@ -27,6 +28,7 @@ export default function AgregarExportacion() {
   const [fecha, setFecha] = useState('');
   const [valorUnitario, setValorUnitario] = useState('');
   const [estado, setEstado] = useState('');
+  const navigate = useNavigate();
 
   const usuarioInfo = JSON.parse(localStorage.getItem('usuario') || '{}');
 
@@ -39,7 +41,6 @@ export default function AgregarExportacion() {
       .then(res => res.json())
       .then(data => setProductos(data));
 
-    // Cargar empresas del usuario autenticado
     if (usuarioInfo && usuarioInfo.correo) {
       fetch(`http://localhost:4567/empresas-usuario/${usuarioInfo.correo}`)
         .then(res => res.json())
@@ -68,71 +69,122 @@ export default function AgregarExportacion() {
 
     const resultado = await res.json();
     alert(resultado.mensaje || resultado.error);
+    navigate('/menu-usuario');
   };
 
   return (
-    <div>
-      <h2>Agregar Exportación</h2>
-      <form onSubmit={manejarEnvio}>
-        <label>Empresa:</label><br />
-        <select value={empresa} onChange={e => setEmpresa(e.target.value)} required>
-          <option value="">Seleccione una empresa</option>
-          {empresas.map(emp => (
-            <option key={emp.idEmpresa} value={emp.idEmpresa}>{emp.nombre}</option>
-          ))}
-        </select><br /><br />
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-10">
+      <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-lg">
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">Agregar Exportación</h2>
+        <form onSubmit={manejarEnvio} className="space-y-4">
 
-        <label>Producto:</label><br />
-        <select value={producto} onChange={e => setProducto(e.target.value)} required>
-          <option value="">Seleccione un producto</option>
-          {productos.map(p => (
-            <option key={p.idProducto} value={p.idProducto}>{p.nombre}</option>
-          ))}
-        </select><br /><br />
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Empresa:</label>
+            <select
+              value={empresa}
+              onChange={e => setEmpresa(e.target.value)}
+              required
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            >
+              <option value="">Seleccione una empresa</option>
+              {empresas.map(emp => (
+                <option key={emp.idEmpresa} value={emp.idEmpresa}>{emp.nombre}</option>
+              ))}
+            </select>
+          </div>
 
-        <label>País destino:</label><br />
-        <select value={pais} onChange={e => setPais(e.target.value)} required>
-          <option value="">Seleccione un país</option>
-          {paises.map(p => (
-            <option key={p.idPais} value={p.idPais}>{p.nombre}</option>
-          ))}
-        </select><br /><br />
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Producto:</label>
+            <select
+              value={producto}
+              onChange={e => setProducto(e.target.value)}
+              required
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            >
+              <option value="">Seleccione un producto</option>
+              {productos.map(p => (
+                <option key={p.idProducto} value={p.idProducto}>{p.nombre}</option>
+              ))}
+            </select>
+          </div>
 
-        <label>Cantidad:</label><br />
-        <input
-          type="number"
-          value={cantidad}
-          onChange={e => setCantidad(e.target.value)}
-          required
-        /><br /><br />
+          <div>
+            <label className="block text-sm font-medium text-gray-700">País destino:</label>
+            <select
+              value={pais}
+              onChange={e => setPais(e.target.value)}
+              required
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            >
+              <option value="">Seleccione un país</option>
+              {paises.map(p => (
+                <option key={p.idPais} value={p.idPais}>{p.nombre}</option>
+              ))}
+            </select>
+          </div>
 
-        <label>Fecha de Exportación:</label><br />
-        <input
-          type="date"
-          value={fecha}
-          onChange={e => setFecha(e.target.value)}
-          required
-        /><br /><br />
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Cantidad:</label>
+            <input
+              type="number"
+              value={cantidad}
+              onChange={e => setCantidad(e.target.value)}
+              required
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            />
+          </div>
 
-        <label>Valor Unitario:</label><br />
-        <input
-          type="number"
-          step="0.01"
-          value={valorUnitario}
-          onChange={e => setValorUnitario(e.target.value)}
-          required
-        /><br /><br />
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Fecha de Exportación:</label>
+            <input
+              type="date"
+              value={fecha}
+              onChange={e => setFecha(e.target.value)}
+              required
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            />
+          </div>
 
-        <label>Estado de Exportación:</label><br />
-        <input
-          type="text"
-          value={estado}
-          onChange={e => setEstado(e.target.value)}
-          required
-        /><br /><br />
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Valor Unitario (COP):</label>
+            <input
+              type="number"
+              step="0.01"
+              value={valorUnitario}
+              onChange={e => setValorUnitario(e.target.value)}
+              required
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            />
+          </div>
 
-        <button type="submit">Registrar Exportación</button>
-      </form>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Estado de Exportación:</label>
+            <input
+              type="text"
+              value={estado}
+              onChange={e => setEstado(e.target.value)}
+              required
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            />
+          </div>
+
+          <div className="flex justify-between pt-4">
+            <button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded transition"
+            >
+              Registrar Exportación
+            </button>
+            <button
+              type="button"
+              onClick={() => window.history.back()}
+              className="bg-gray-400 hover:bg-gray-500 text-white font-medium px-4 py-2 rounded transition"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
