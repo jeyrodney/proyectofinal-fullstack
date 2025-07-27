@@ -1,0 +1,34 @@
+﻿✅ 1. Reportes y Dashboards para Visitantes (Home público)
+Estos dashboards permiten mostrar valor sin requerir login. 
+Se encontran en la Landing Page como “Tendencias de Exportación”.
+
+* Producto que más se exporta a determinado país o países.
+* Producto con más flujo de exportación.
+* País con tasa de arancel más alto para determinado producto.
+* Datos estadísticos de exportaciones que reciben los países.
+* Mapa interactivo del mundo con volúmenes de exportación por país.
+* Top 5 productos más exportados.
+* Gráfica de crecimiento mensual de exportaciones.
+
+✅ 2. Reportes para Administrador
+Esto permite tomar decisiones o hacer supervisión de uso de la plataforma.
+
+* Empresa que más exporta a determinado país.
+* Listado de empresas registradas.
+* Exportaciones realizadas por determinada empresa.
+* Exportaciones por rango de fechas (auditoría).
+* Ranking de empresas más activas.
+* Comparativa mensual de actividad exportadora.
+
+✅ 3. Reportes Personalizados para Usuario/Empresa
+Esta es la parte más valiosa para fidelización, reportes de valor para el usuario/empresa.
+
+* Datos estadísticos de exportaciones.
+* Ganancias por rango de fecha.
+* Impuestos aranceles aplicados por rango de fecha.
+* Recomendaciones basadas en países con baja tasa arancelaria y alto volumen (inteligencia básica de negocio).
+* Países con potencial para exportar.
+* Exportaciones por producto (tipo torta o barra).
+* Historial de exportaciones por país.
+* Tabla de tasas de aranceles.
+* Tabla de cambio moneda-país.

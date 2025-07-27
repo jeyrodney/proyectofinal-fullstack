@@ -11,7 +11,7 @@ import java.time.ZoneId;
 public class ExportacionDAO {
 
     public boolean registrarExportacion(Exportacion exp) {
-        String sqlInsert = "INSERT INTO exportacion (cantidad, fecha_exp, valor_unitario, tasa_cambio, total, total_moneda_destino, tasa_arancel, estado_exportacion, fk_empresa, fk_producto, fk_pais) " +
+        String sqlInsert = "INSERT INTO exportacion (cantidad, fecha_exp, valor_unitario, tasa_cambio, total, total_moneda_destino, arancel_cobrado, estado_exportacion, fk_empresa, fk_producto, fk_pais) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = ConectorBaseDatos.getConnection()) {
@@ -59,7 +59,7 @@ public class ExportacionDAO {
                 return rs.getBigDecimal("tasa_cambio");
             }
         }
-        throw new SQLException("No se encontró tasa de cambio para el país");
+        throw new SQLException("No se encontró tasa de cambio para el país: " + idPais);
     }
 
     private BigDecimal obtenerTasaArancel(int idPais, int idProducto, Connection conn) throws SQLException {
@@ -72,7 +72,7 @@ public class ExportacionDAO {
                 return rs.getBigDecimal("tasa_arancel");
             }
         }
-        throw new SQLException("No se encontró arancel para el país y producto");
+        throw new SQLException("No se encontró arancel para el país y producto: " + idPais + idProducto);
     }
 
 }
