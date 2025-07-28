@@ -6,7 +6,11 @@ import com.google.gson.Gson;
 import dao.*;
 import modelo.*;
 import seguridad.RegistroUsuario;
+import util.ConectorBaseDatos;
+import reportes.ProductoPorPaisDTO;
+import reportes.VolumenPorMesDTO;
 
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -208,6 +212,28 @@ public class MainAPI {
                 res.status(404);
                 return gson.toJson(Map.of("error", "País no encontrado"));
             }
+        });
+
+        // Endpoint para traer el volumen de exportaciones por pais para el mapa:
+        get("/volumen-exportaciones", (req, res) -> {
+            res.type("application/json");
+            try (Connection conn = ConectorBaseDatos.getConnection()) {
+                List<VolumenExportacionPorPais> datos = ExportacionDAO.obtenerVolumenPorPais(conn);
+                return new Gson().toJson(datos);
+            }
+        });
+
+        // Endpoint para traer la grafica de reporte top productos por pais
+        get("/top-productos-por-pais", (req, res) -> {
+            res.type("application/json");
+            List<ProductoPorPaisDTO> topProductos = ReporteHomeDAO.obtenerTopProductosPorPais();
+            return new Gson().toJson(topProductos);
+        });
+
+        get("/volumen-por-mes", (req, res) -> {
+            res.type("application/json");
+            List<VolumenPorMesDTO> datosMensuales = ReporteHomeDAO.obtenerVolumenPorMes();
+            return new Gson().toJson(datosMensuales);
         });
 
         // Endpoint adicional opcional

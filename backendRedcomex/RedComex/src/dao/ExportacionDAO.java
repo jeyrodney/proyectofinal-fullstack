@@ -1,12 +1,15 @@
 package dao;
 
 import modelo.Exportacion;
+import modelo.VolumenExportacionPorPais;
 import util.ConectorBaseDatos;
 
 import java.math.BigDecimal;
 import java.sql.*;
 
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExportacionDAO {
 
@@ -73,6 +76,30 @@ public class ExportacionDAO {
             }
         }
         throw new SQLException("No se encontró arancel para el país y producto: " + idPais + idProducto);
+    }
+
+    public static List<VolumenExportacionPorPais> obtenerVolumenPorPais(Connection conn) {
+        List<VolumenExportacionPorPais> lista = new ArrayList<>();
+
+        String sql = "SELECT p.nombre AS pais, SUM(e.cantidad) AS volumen " +
+                "FROM exportacion e " +
+                "JOIN pais p ON e.fk_pais = p.id_pais " +
+                "GROUP BY p.nombre";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                String pais = rs.getString("pais");
+                int volumen = rs.getInt("volumen");
+                lista.add(new VolumenExportacionPorPais(pais, volumen));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
     }
 
 }
