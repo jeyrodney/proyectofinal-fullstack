@@ -10,7 +10,9 @@ import java.sql.*;
 
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ExportacionDAO {
 
@@ -138,5 +140,60 @@ public class ExportacionDAO {
         }
         return exportaciones;
     }
+
+
+    public static List<Map<String, Object>> obtenerTotalesExportacionesPorEmpresa(int usuarioId) throws SQLException {
+        List<Map<String, Object>> result = new ArrayList<>();
+        String sql = "SELECT e.id_empresa, e.nombre, EXTRACT(MONTH FROM exp.fecha_exp) AS mes, " +
+                "SUM(exp.total) AS total_exportaciones " +
+                "FROM exportacion exp " +
+                "JOIN empresa e ON exp.fk_empresa = e.id_empresa " +
+                "WHERE e.fk_usuario = ? " +
+                "GROUP BY e.id_empresa, mes ORDER BY e.id_empresa, mes";
+
+        try (Connection conn = ConectorBaseDatos.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, usuarioId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Map<String, Object> record = new HashMap<>();
+                record.put("id_empresa", rs.getInt("id_empresa"));
+                record.put("empresa_nombre", rs.getString("nombre"));
+                record.put("mes", rs.getInt("mes"));
+                record.put("total_exportaciones", rs.getDouble("total_exportaciones"));
+                result.add(record);
+            }
+        }
+        return result;
+    }
+
+    public static List<Map<String, Object>> obtenerExportacionesPorPais(int usuarioId) throws SQLException {
+        List<Map<String, Object>> result = new ArrayList<>();
+        String sql = "SELECT exp.fk_pais, p.nombre AS pais, pr.nombre AS producto, SUM(exp.cantidad) AS cantidad " +
+                "FROM exportacion exp " +
+                "JOIN pais p ON exp.fk_pais = p.id_pais " +
+                "JOIN producto pr ON exp.fk_producto = pr.id_producto " +
+                "JOIN empresa e ON exp.fk_empresa = e.id_empresa " +
+                "WHERE e.fk_usuario = ? " +
+                "GROUP BY exp.fk_pais, pr.nombre";
+
+        try (Connection conn = ConectorBaseDatos.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, usuarioId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Map<String, Object> record = new HashMap<>();
+                record.put("pais", rs.getString("pais"));
+                record.put("producto", rs.getString("producto"));
+                record.put("cantidad", rs.getInt("cantidad"));
+                result.add(record);
+            }
+        }
+        return result;
+    }
+
+
 
 }

@@ -3,26 +3,12 @@ import { LogOut, Briefcase, Truck, FileText } from 'lucide-react';
 import AgregarEmpresa from './AgregarEmpresa';
 import AgregarExportacion from './AgregarExportacion';
 import HistorialExportaciones from './HistorialExportaciones';
-import Reportes from '../../components/ReportesUsuario'; // Importamos el componente de Reportes
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 
 function MenuUsuario() {
-  const [usuario, setUsuario] = useState<{ usuario_id: number; usuario: string; correo: string } | null>(null);
+  const [usuario, setUsuario] = useState<{ usuario: string; correo: string } | null>(null);
   const [seccionActiva, setSeccionActiva] = useState<string>(''); // Controlar qué sección mostrar
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const datos = localStorage.getItem('usuario');
-    if (datos) {
-      const info = JSON.parse(datos);
-      setUsuario({
-        usuario_id: info.usuario_id, // Asegúrate de que esta propiedad esté presente en localStorage
-        usuario: info.usuario,
-        correo: info.correo,
-      });
-    }
-  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('usuario');
@@ -85,22 +71,12 @@ function MenuUsuario() {
             <h3 className="font-bold text-lg">Historial Exportaciones</h3>
             <p className="text-sm text-gray-600 mt-1">Consulta el resumen de tus exportaciones registradas.</p>
           </div>
-
-          <div
-            className="bg-white shadow hover:shadow-lg rounded-lg p-6 cursor-pointer border border-gray-100 transition"
-            onClick={() => manejarNavegacion('reportes')}
-          >
-            <FileText className="text-blue-600 w-6 h-6 mb-2" />
-            <h3 className="font-bold text-lg">Reportes</h3>
-            <p className="text-sm text-gray-600 mt-1">Ver los reportes gráficos de las exportaciones.</p>
-          </div>
         </div>
 
         {/* Mostrar el componente correspondiente basado en el estado */}
         {seccionActiva === 'agregarEmpresa' && <AgregarEmpresa />}
         {seccionActiva === 'agregarExportacion' && <AgregarExportacion />}
         {seccionActiva === 'historialExportaciones' && <HistorialExportaciones />}
-        {seccionActiva === 'reportes' && <Reportes usuarioId={usuario ? usuario.usuario_id : 0} />}
       </main>
     </div>
   );

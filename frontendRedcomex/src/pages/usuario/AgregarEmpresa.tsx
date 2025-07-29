@@ -44,54 +44,58 @@ export default function AgregarEmpresa() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-10 px-4">
-      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">Registrar Nueva Empresa</h2>
+    <div className="min-h-screen bg-gray-50 text-gray-800">
+      <header className="bg-indigo-600 text-white px-8 py-4 flex justify-between items-center shadow-md">
+        <h1 className="text-2xl font-bold">Registrar Nueva Empresa</h1>
+      </header>
 
-        <form onSubmit={manejarEnvio} className="space-y-4">
-          <div>
-            <label className="block font-medium text-sm text-gray-700">NIT:</label>
-            <input
-              type="text"
-              value={nit}
-              onChange={e => setNit(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded"
-            />
-          </div>
+      <main className="px-6 py-10 max-w-5xl mx-auto">
+        <div className="bg-white rounded-lg shadow-lg p-8">
+          <form onSubmit={manejarEnvio} className="space-y-6">
+            <div>
+              <label className="block font-medium text-sm text-gray-700">NIT:</label>
+              <input
+                type="text"
+                value={nit}
+                onChange={e => setNit(e.target.value)}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              />
+            </div>
 
-          <div>
-            <label className="block font-medium text-sm text-gray-700">Nombre de la Empresa:</label>
-            <input
-              type="text"
-              value={nombre}
-              onChange={e => setNombre(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded"
-            />
-          </div>
+            <div>
+              <label className="block font-medium text-sm text-gray-700">Nombre de la Empresa:</label>
+              <input
+                type="text"
+                value={nombre}
+                onChange={e => setNombre(e.target.value)}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              />
+            </div>
 
-          <div>
-            <label className="block font-medium text-sm text-gray-700">Descripción:</label>
-            <textarea
-              value={descripcion}
-              onChange={e => setDescripcion(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded resize-none"
-              rows={3}
-            />
-          </div>
+            <div>
+              <label className="block font-medium text-sm text-gray-700">Descripción:</label>
+              <textarea
+                value={descripcion}
+                onChange={e => setDescripcion(e.target.value)}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg resize-none"
+                rows={4}
+              />
+            </div>
 
-          <div className="flex justify-between">
-            <button
-              type="submit"
-              className="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded transition"
-            >
-              Registrar Empresa
-            </button>
-          </div>
-        </form>
-      </div>
+            <div className="flex justify-between">
+              <button
+                type="submit"
+                className="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-3 rounded-lg transition duration-300"
+              >
+                Registrar Empresa
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
     </div>
   );
 }

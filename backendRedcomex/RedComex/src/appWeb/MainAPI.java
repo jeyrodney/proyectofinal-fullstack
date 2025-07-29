@@ -250,6 +250,33 @@ public class MainAPI {
             }
         });
 
+        post("/reportes/exportaciones-por-empresa", (req, res) -> {
+            // Parseo del cuerpo de la solicitud
+            String body = req.body();
+            Gson gsonrep = new Gson();
+            Map<String, Object> data = gsonrep.fromJson(body, Map.class);
+            int usuarioId = ((Double) data.get("usuario_id")).intValue(); // obtener el usuario_id
+
+            // Llamar al DAO para obtener los datos
+            List<Map<String, Object>> reportData = ExportacionDAO.obtenerTotalesExportacionesPorEmpresa(usuarioId);
+
+            // Retornar los datos como JSON
+            return new Gson().toJson(reportData);
+        });
+
+        post("/reportes/exportaciones-por-pais", (req, res) -> {
+            // Parseo del cuerpo de la solicitud
+            String body = req.body();
+            Gson gsonrep = new Gson();
+            Map<String, Object> data = gsonrep.fromJson(body, Map.class);
+            int usuarioId = ((Double) data.get("usuario_id")).intValue(); // obtener el usuario_id
+
+            List<Map<String, Object>> reportData = ExportacionDAO.obtenerExportacionesPorPais(usuarioId);
+            return new Gson().toJson(reportData);
+        });
+
+
+
         // Endpoint adicional opcional
         get("/", (req, res) -> gson.toJson(Map.of("status", "API corriendo")));
     }

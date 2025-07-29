@@ -78,116 +78,121 @@ export default function AgregarExportacion() {
     setFecha('');
     setValorUnitario('');
     setEstado('');
-    
+
     // Redirigir al menú de usuario
     navigate('/menu-usuario');
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-10">
-      <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-lg">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">Agregar Exportación</h2>
-        <form onSubmit={manejarEnvio} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Empresa:</label>
-            <select
-              value={empresa}
-              onChange={e => setEmpresa(e.target.value)}
-              required
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            >
-              <option value="">Seleccione una empresa</option>
-              {empresas.map(emp => (
-                <option key={emp.idEmpresa} value={emp.idEmpresa}>{emp.nombre}</option>
-              ))}
-            </select>
-          </div>
+    <div className="min-h-screen bg-gray-50 text-gray-800">
+      <header className="bg-indigo-600 text-white px-8 py-4 flex justify-between items-center shadow-md">
+        <h1 className="text-2xl font-bold">Registrar Nueva Exportación</h1>
+      </header>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Producto:</label>
-            <select
-              value={producto}
-              onChange={e => setProducto(e.target.value)}
-              required
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            >
-              <option value="">Seleccione un producto</option>
-              {productos.map(p => (
-                <option key={p.idProducto} value={p.idProducto}>{p.nombre}</option>
-              ))}
-            </select>
-          </div>
+      <main className="px-6 py-10 max-w-5xl mx-auto">
+        <div className="bg-white rounded-lg shadow-lg p-8">
+          <form onSubmit={manejarEnvio} className="space-y-6">
+            <div>
+              <label className="block font-medium text-sm text-gray-700">Empresa:</label>
+              <select
+                value={empresa}
+                onChange={e => setEmpresa(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              >
+                <option value="">Seleccione una empresa</option>
+                {empresas.map(emp => (
+                  <option key={emp.idEmpresa} value={emp.idEmpresa}>{emp.nombre}</option>
+                ))}
+              </select>
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">País destino:</label>
-            <select
-              value={pais}
-              onChange={e => setPais(e.target.value)}
-              required
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            >
-              <option value="">Seleccione un país</option>
-              {paises.map(p => (
-                <option key={p.idPais} value={p.idPais}>{p.nombre}</option>
-              ))}
-            </select>
-          </div>
+            <div>
+              <label className="block font-medium text-sm text-gray-700">Producto:</label>
+              <select
+                value={producto}
+                onChange={e => setProducto(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              >
+                <option value="">Seleccione un producto</option>
+                {productos.map(p => (
+                  <option key={p.idProducto} value={p.idProducto}>{p.nombre}</option>
+                ))}
+              </select>
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Cantidad:</label>
-            <input
-              type="number"
-              value={cantidad}
-              onChange={e => setCantidad(e.target.value)}
-              required
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            />
-          </div>
+            <div>
+              <label className="block font-medium text-sm text-gray-700">País destino:</label>
+              <select
+                value={pais}
+                onChange={e => setPais(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              >
+                <option value="">Seleccione un país</option>
+                {paises.map(p => (
+                  <option key={p.idPais} value={p.idPais}>{p.nombre}</option>
+                ))}
+              </select>
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Fecha de Exportación:</label>
-            <input
-              type="date"
-              value={fecha}
-              onChange={e => setFecha(e.target.value)}
-              required
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            />
-          </div>
+            <div>
+              <label className="block font-medium text-sm text-gray-700">Cantidad:</label>
+              <input
+                type="number"
+                value={cantidad}
+                onChange={e => setCantidad(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              />
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Valor Unitario (COP):</label>
-            <input
-              type="number"
-              step="0.01"
-              value={valorUnitario}
-              onChange={e => setValorUnitario(e.target.value)}
-              required
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            />
-          </div>
+            <div>
+              <label className="block font-medium text-sm text-gray-700">Fecha de Exportación:</label>
+              <input
+                type="date"
+                value={fecha}
+                onChange={e => setFecha(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              />
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Estado de Exportación:</label>
-            <input
-              type="text"
-              value={estado}
-              onChange={e => setEstado(e.target.value)}
-              required
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            />
-          </div>
+            <div>
+              <label className="block font-medium text-sm text-gray-700">Valor Unitario (COP):</label>
+              <input
+                type="number"
+                step="0.01"
+                value={valorUnitario}
+                onChange={e => setValorUnitario(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              />
+            </div>
 
-          <div className="flex justify-between pt-4">
-            <button
-              type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded transition"
-            >
-              Registrar Exportación
-            </button>
-          </div>
-        </form>
-      </div>
+            <div>
+              <label className="block font-medium text-sm text-gray-700">Estado de Exportación:</label>
+              <input
+                type="text"
+                value={estado}
+                onChange={e => setEstado(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              />
+            </div>
+
+            <div className="flex justify-between pt-4">
+              <button
+                type="submit"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition duration-300"
+              >
+                Registrar Exportación
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
     </div>
   );
 }
