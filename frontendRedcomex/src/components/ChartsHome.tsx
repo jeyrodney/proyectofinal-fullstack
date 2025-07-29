@@ -41,7 +41,7 @@ export default function ChartsHome() {
         <div className="px-8 py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
                 <h3 className="text-xl text-indigo-700 mb-2 text-center">
-                    🏆 Productos más exportados por país (Top 5)
+                     Productos más exportados por país (Top 5)
                 </h3>
                 <ResponsiveContainer width="100%" height={300}>
                     <BarChart data={topDatos} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
@@ -71,7 +71,7 @@ export default function ChartsHome() {
 
             <div>
                 <h3 className="text-xl text-indigo-700 mb-2 text-center">
-                    📈 Volumen mensual de exportaciones
+                     Volumen mensual de exportaciones
                 </h3>
                 <ResponsiveContainer width="100%" height={300}>
                     <LineChart data={mesDatos}>

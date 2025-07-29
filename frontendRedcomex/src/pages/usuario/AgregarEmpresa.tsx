@@ -7,10 +7,6 @@ export default function AgregarEmpresa() {
   const [descripcion, setDescripcion] = useState('');
   const navigate = useNavigate();
 
-  const handleCancel = () => {
-    navigate('/menu-usuario');
-  };
-
   const manejarEnvio = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -37,6 +33,13 @@ export default function AgregarEmpresa() {
 
     const resultado = await respuesta.json();
     alert(resultado.mensaje || resultado.error);
+
+    // Limpiar los campos después de guardar la empresa
+    setNit('');
+    setNombre('');
+    setDescripcion('');
+
+    // Redirigir al menú de usuario
     navigate('/menu-usuario');
   };
 
@@ -85,13 +88,6 @@ export default function AgregarEmpresa() {
               className="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded transition"
             >
               Registrar Empresa
-            </button>
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="bg-gray-400 hover:bg-gray-500 text-white font-medium px-4 py-2 rounded transition"
-            >
-              Cancelar
             </button>
           </div>
         </form>

@@ -1,24 +1,29 @@
-import { useState } from 'react';
-import { LogOut, Briefcase, Truck, FileText } from 'lucide-react';
-import AgregarEmpresa from './AgregarEmpresa';
-import AgregarExportacion from './AgregarExportacion';
-import HistorialExportaciones from './HistorialExportaciones';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { LogOut, Briefcase, Truck, FileText } from 'lucide-react';
 
 function MenuUsuario() {
-  const [usuario, setUsuario] = useState<{ usuario: string; correo: string } | null>(null);
-  const [seccionActiva, setSeccionActiva] = useState<string>(''); // Controlar qué sección mostrar
   const navigate = useNavigate();
+  const [usuario, setUsuario] = useState<{ usuario: string; correo: string } | null>(null);
 
-  const handleLogout = () => {
+  useEffect(() => {
+    const datos = localStorage.getItem('usuario');
+    if (datos) {
+      const info = JSON.parse(datos);
+      setUsuario({
+        usuario: info.usuario,
+        correo: info.correo,
+      });
+    }
+  }, []);
+
+  const cerrarSesion = () => {
     localStorage.removeItem('usuario');
-    setUsuario(null); // Limpiar los datos del usuario
-    setSeccionActiva(''); // Restablecer la sección activa
-    navigate('/'); // Redirigir al inicio o a la página de login
+    navigate('/');
   };
 
-  const manejarNavegacion = (seccion: string) => {
-    setSeccionActiva(seccion);  // Cambiar la sección activa
+  const manejarNavegacion = (ruta: string) => {
+    navigate(ruta);
   };
 
   return (
@@ -34,7 +39,7 @@ function MenuUsuario() {
           )}
         </div>
         <button
-          onClick={handleLogout}
+          onClick={cerrarSesion}
           className="flex items-center bg-red-500 hover:bg-red-600 px-4 py-2 rounded transition text-sm"
         >
           <LogOut className="w-4 h-4 mr-2" />
@@ -47,7 +52,7 @@ function MenuUsuario() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           <div
             className="bg-white shadow hover:shadow-lg rounded-lg p-6 cursor-pointer border border-gray-100 transition"
-            onClick={() => manejarNavegacion('agregarEmpresa')}
+            onClick={() => manejarNavegacion('/crear-empresa')}
           >
             <Briefcase className="text-indigo-600 w-6 h-6 mb-2" />
             <h3 className="font-bold text-lg">Agregar Empresa</h3>
@@ -56,7 +61,7 @@ function MenuUsuario() {
 
           <div
             className="bg-white shadow hover:shadow-lg rounded-lg p-6 cursor-pointer border border-gray-100 transition"
-            onClick={() => manejarNavegacion('agregarExportacion')}
+            onClick={() => manejarNavegacion('/agregar-exportacion')}
           >
             <Truck className="text-green-600 w-6 h-6 mb-2" />
             <h3 className="font-bold text-lg">Agregar Exportación</h3>
@@ -65,18 +70,13 @@ function MenuUsuario() {
 
           <div
             className="bg-white shadow hover:shadow-lg rounded-lg p-6 cursor-pointer border border-gray-100 transition"
-            onClick={() => manejarNavegacion('historialExportaciones')}
+            onClick={() => manejarNavegacion('/reporte-exportaciones')}
           >
             <FileText className="text-blue-600 w-6 h-6 mb-2" />
             <h3 className="font-bold text-lg">Historial Exportaciones</h3>
             <p className="text-sm text-gray-600 mt-1">Consulta el resumen de tus exportaciones registradas.</p>
           </div>
         </div>
-
-        {/* Mostrar el componente correspondiente basado en el estado */}
-        {seccionActiva === 'agregarEmpresa' && <AgregarEmpresa />}
-        {seccionActiva === 'agregarExportacion' && <AgregarExportacion />}
-        {seccionActiva === 'historialExportaciones' && <HistorialExportaciones />}
       </main>
     </div>
   );

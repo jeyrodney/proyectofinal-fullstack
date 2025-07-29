@@ -6,7 +6,7 @@ import NuevoUsuario from '../pages/auth/NuevoUsuario';
 import MenuUsuario from '../pages/usuario/MenuUsuario';
 import CrearEmpresa from '../pages/usuario/AgregarEmpresa';
 import AgregarExportacion from '../pages/usuario/AgregarExportacion';
-import ReporteExportaciones from '../pages/reportes/ReporteExportaciones';
+import ReporteExportaciones from '../pages/usuario/HistorialExportaciones';
 import MenuAdmin from '../pages/admin/MenuAdmin';
 import NuevoAdmin from '../pages/admin/NuevoAdmin';
 import ModificarArancel from '../pages/admin/ModificarArancel';

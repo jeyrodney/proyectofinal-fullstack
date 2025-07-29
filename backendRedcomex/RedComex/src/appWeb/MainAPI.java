@@ -223,17 +223,31 @@ public class MainAPI {
             }
         });
 
-        // Endpoint para traer la grafica de reporte top productos por pais
+        // Endpoint para traer los datos para la grafica del home de reporte top productos por pais
         get("/top-productos-por-pais", (req, res) -> {
             res.type("application/json");
             List<ProductoPorPaisDTO> topProductos = ReporteHomeDAO.obtenerTopProductosPorPais();
             return new Gson().toJson(topProductos);
         });
 
+        // Endpoint para traer los datos para la grafica del home de reporte volumen de exportaciones totales por mes
         get("/volumen-por-mes", (req, res) -> {
             res.type("application/json");
             List<VolumenPorMesDTO> datosMensuales = ReporteHomeDAO.obtenerVolumenPorMes();
             return new Gson().toJson(datosMensuales);
+        });
+
+        get("/historial-exportaciones/:usuarioId", (req, res) -> {
+            int usuarioId = Integer.parseInt(req.params(":usuarioId"));  // Obtener el ID del usuario de los parámetros de la URL
+            ExportacionDAO exportacionDAO = new ExportacionDAO();
+            List<ExportacionRep> historial = exportacionDAO.obtenerHistorialExportaciones(usuarioId);
+
+            res.type("application/json");
+            if (!historial.isEmpty()) {
+                return new Gson().toJson(historial);  // Convertir la lista de exportaciones a JSON
+            } else {
+                return gson.toJson(Map.of("mensaje", "No se encontraron exportaciones"));
+            }
         });
 
         // Endpoint adicional opcional

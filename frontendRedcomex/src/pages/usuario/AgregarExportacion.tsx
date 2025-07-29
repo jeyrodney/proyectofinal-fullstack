@@ -69,6 +69,17 @@ export default function AgregarExportacion() {
 
     const resultado = await res.json();
     alert(resultado.mensaje || resultado.error);
+
+    // Limpiar todos los campos después de guardar la exportación
+    setPais('');
+    setProducto('');
+    setEmpresa('');
+    setCantidad('');
+    setFecha('');
+    setValorUnitario('');
+    setEstado('');
+    
+    // Redirigir al menú de usuario
     navigate('/menu-usuario');
   };
 
@@ -77,7 +88,6 @@ export default function AgregarExportacion() {
       <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-lg">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">Agregar Exportación</h2>
         <form onSubmit={manejarEnvio} className="space-y-4">
-
           <div>
             <label className="block text-sm font-medium text-gray-700">Empresa:</label>
             <select
@@ -174,13 +184,6 @@ export default function AgregarExportacion() {
               className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded transition"
             >
               Registrar Exportación
-            </button>
-            <button
-              type="button"
-              onClick={() => window.history.back()}
-              className="bg-gray-400 hover:bg-gray-500 text-white font-medium px-4 py-2 rounded transition"
-            >
-              Cancelar
             </button>
           </div>
         </form>

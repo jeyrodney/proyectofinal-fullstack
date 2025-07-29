@@ -43,7 +43,7 @@ function Home() {
             Impulsamos las Exportaciones de las <span className="text-indigo-600">PYMEs colombianas</span>
           </h2>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto mb-8 animate-fadeInUp"> {/* Fuente más grande, texto más oscuro, animación */}
-            Una plataforma integral para la **gestión, análisis y promoción** estratégica de productos colombianos en los mercados internacionales.
+            Una plataforma integral para la gestión, análisis y promoción estratégica de productos colombianos en los mercados internacionales.
           </p>
           <div className="flex justify-center space-x-4 animate-fadeIn"> {/* Animación para los botones */}
             <Link to="/acerca-de"> {/* Nuevo botón de CTA */}

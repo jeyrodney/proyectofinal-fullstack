@@ -1,6 +1,7 @@
 package dao;
 
 import modelo.Exportacion;
+import modelo.ExportacionRep;
 import modelo.VolumenExportacionPorPais;
 import util.ConectorBaseDatos;
 
@@ -100,6 +101,42 @@ public class ExportacionDAO {
         }
 
         return lista;
+    }
+
+    public List<ExportacionRep> obtenerHistorialExportaciones(int usuarioId) {
+        List<ExportacionRep> exportaciones = new ArrayList<>();
+        String sql = "SELECT e.id_exportacion, e.cantidad, e.fecha_exp, e.valor_unitario, e.tasa_cambio, e.total, e.total_moneda_destino, e.arancel_cobrado, e.estado_exportacion, p.nombre AS producto, pa.nombre AS pais " +
+                "FROM exportacion e " +
+                "JOIN producto p ON e.fk_producto = p.id_producto " +
+                "JOIN pais pa ON e.fk_pais = pa.id_pais " +
+                "JOIN empresa emp ON e.fk_empresa = emp.id_empresa " +
+                "WHERE emp.fk_usuario = ? " +
+                "ORDER BY e.fecha_exp DESC";
+
+        try (Connection conn = ConectorBaseDatos.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, usuarioId);  // Filtrar por el usuario
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                ExportacionRep exportacion = new ExportacionRep();
+                exportacion.setIdExportacion(rs.getInt("id_exportacion"));
+                exportacion.setCantidad(rs.getInt("cantidad"));
+                exportacion.setFechaExp(rs.getDate("fecha_exp"));
+                exportacion.setValorUnitario(rs.getBigDecimal("valor_unitario"));
+                exportacion.setTasaCambio(rs.getBigDecimal("tasa_cambio"));
+                exportacion.setTotal(rs.getBigDecimal("total"));
+                exportacion.setTotalMonedaDestino(rs.getBigDecimal("total_moneda_destino"));
+                exportacion.setArancelCobrado(rs.getBigDecimal("arancel_cobrado"));
+                exportacion.setEstadoExportacion(rs.getString("estado_exportacion"));
+                exportacion.setProducto(rs.getString("producto"));
+                exportacion.setPais(rs.getString("pais"));
+                exportaciones.add(exportacion);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return exportaciones;
     }
 
 }
