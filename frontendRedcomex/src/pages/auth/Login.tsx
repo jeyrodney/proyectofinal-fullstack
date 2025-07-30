@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+ import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
+ export default function Login() {
   const [correo, setCorreo] = useState('');
   const [clave, setClave] = useState('');
   const [error, setError] = useState('');
@@ -42,44 +42,46 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
-        <h2 className="text-2xl font-semibold text-center text-blue-700 mb-6">Iniciar Sesión</h2>
-        <form onSubmit={handleLogin} className="space-y-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-emerald-200 px-4">
+      <div className="bg-white shadow-xl rounded-lg p-8 w-full max-w-md">
+        <h2 className="text-2xl font-semibold text-center text-emerald-700 mb-8">Iniciar Sesión</h2>
+        <form onSubmit={handleLogin} className="space-y-6">
           <div>
-            <label className="block text-gray-700">Correo:</label>
+            <label htmlFor="correo" className="block text-gray-700 text-sm font-bold mb-2">Correo:</label>
             <input
               type="email"
+              id="correo"
               value={correo}
               onChange={e => setCorreo(e.target.value)}
               required
-              className="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-emerald-500"
             />
           </div>
           <div>
-            <label className="block text-gray-700">Contraseña:</label>
+            <label htmlFor="clave" className="block text-gray-700 text-sm font-bold mb-2">Contraseña:</label>
             <input
               type="password"
+              id="clave"
               value={clave}
               onChange={e => setClave(e.target.value)}
               required
-              className="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-emerald-500"
             />
           </div>
           {error && (
-            <p className="text-red-600 text-sm text-center">{error}</p>
+            <p className="text-red-500 text-xs italic text-center">{error}</p>
           )}
-          <div className="flex justify-between mt-6">
+          <div className="flex items-center justify-between">
             <button
               type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline transition duration-300"
             >
               Ingresar
             </button>
             <button
               type="button"
               onClick={handleCancel}
-              className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition duration-200"
+              className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline transition duration-300"
             >
               Cancelar
             </button>
@@ -88,4 +90,4 @@ export default function Login() {
       </div>
     </div>
   );
-}
+ }

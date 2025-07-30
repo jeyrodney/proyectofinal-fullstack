@@ -1,13 +1,11 @@
 package dao;
 
 import modelo.Pais;
+import modelo.TopPais;
 import util.ConectorBaseDatos;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +67,26 @@ public class PaisDAO {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public List<TopPais> obtenerTopPaisesUltimoMes(Connection connection) throws SQLException {
+        String query = "SELECT p.nombre AS pais_nombre, SUM(exp.cantidad) AS total_exportaciones " +
+                "FROM exportacion exp " +
+                "JOIN pais p ON exp.fk_pais = p.id_pais " +
+                "WHERE MONTH(exp.fecha_exp) = MONTH(CURRENT_DATE()) " +
+                "AND YEAR(exp.fecha_exp) = YEAR(CURRENT_DATE()) " +
+                "GROUP BY p.id_pais " +
+                "ORDER BY total_exportaciones DESC " +
+                "LIMIT 5;";
+
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+            List<TopPais> topPaises = new ArrayList<>();
+            while (rs.next()) {
+                TopPais topPais = new TopPais(rs.getString("pais_nombre"), rs.getDouble("total_exportaciones"));
+                topPaises.add(topPais);
+            }
+            return topPaises;
         }
     }
 

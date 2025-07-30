@@ -6,6 +6,7 @@ public class Empresa {
     private String nombre;
     private String descripcion;
     private int fk_usuario;
+    private String usuarioNombre;
 
     public Empresa() {}
 
@@ -25,4 +26,30 @@ public class Empresa {
     public String getNombre() { return nombre; }
     public String getDescripcion() { return descripcion; }
     public int getFk_usuario() { return fk_usuario; }
+
+    public int getIdEmpresa() {
+        return idEmpresa;
+    }
+
+    public void setIdEmpresa(int idEmpresa) {
+        this.idEmpresa = idEmpresa;
+    }
+
+    public void setNit(String nit) {
+        this.nit = nit;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getFkUsuario() {
+        return fk_usuario;
+    }
+
+    public void setFkUsuario(int fkUsuario) {
+        this.fk_usuario = fkUsuario;
+    }
+
+    public void setUsuarioNombre(String usuarioNombre){ this.usuarioNombre = usuarioNombre; }
 }

@@ -11,9 +11,13 @@ import MenuAdmin from '../pages/admin/MenuAdmin';
 import NuevoAdmin from '../pages/admin/NuevoAdmin';
 import ModificarArancel from '../pages/admin/ModificarArancel';
 import ActualizarTasaCambio from '../pages/admin/ActualizarTasaCambio';
+import Dashboard from '../components/Dashboard';
+import SobreNosotros from '../pages/public/SobreNosotros'
 // puedes agregar otros como MenuUsuario, MenuAdmin cuando estén listos
 
 function AppRouter() {
+    // Leer el usuarioId del localStorage
+  const usuarioId = JSON.parse(localStorage.getItem('usuario') || '{}').usuario_id;
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -27,6 +31,8 @@ function AppRouter() {
       <Route path='/nuevo-admin' element={<NuevoAdmin />} />
       <Route path="/modificar-arancel" element={<ModificarArancel />} />
       <Route path="/actualizar-tasa-cambio" element={<ActualizarTasaCambio />} />
+      <Route path="/dashboard" element={<Dashboard usuarioId={usuarioId} />} />
+      <Route path="/sobre-nosotros" element={<SobreNosotros />} />
       {/* <Route path="/dashboard/user" element={<MenuUsuario />} />
       <Route path="/dashboard/admin" element={<MenuAdmin />} /> */}
     </Routes>

@@ -5,6 +5,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement; // Usa PreparedStatement para mayor seguridad y rendimiento
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.mindrot.jbcrypt.BCrypt; //para encriptar passwords y también para validarlos durante el login
 public class UsuarioDAO {
 
@@ -80,41 +83,41 @@ public class UsuarioDAO {
         return usuario;
     }
 
-/***
-    public int registroUsuario(Usuario usuario){
-        PreparedStatement pstmt = null; // PreparedStatement para preparar el query
-        String hashedPass = BCrypt.hashpw(usuario.getPasswordUser(), BCrypt.gensalt(12));
-        String sql = "INSERT INTO usuario (tipo_documento, documento, nombre, correo, celular, password_user, fk_rol) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        int filasAfectadas = 0;
-        try(Connection conn = ConectorBaseDatos.getConnection();
+    // Metodo para obtener todos los usuarios
+    public List<Usuario> obtenerTodosUsuarios() throws SQLException {
+        List<Usuario> usuarios = new ArrayList<>();
+        String query = "SELECT u.usuario_id, u.nombre, u.correo, u.documento, u.celular, r.rol FROM usuario u JOIN rol r ON u.fk_rol = r.id_rol";
 
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
-            if(conn == null){
-                System.out.println("No se pudo establecer la conexión a la base de datos. Saliendo...");
-                System.exit(0);
-            } else {
-                //System.out.println("Se logra conexión con la base de datos desde dao.UsuarioDAO."); //esta linea debe ir a los logs
-                pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, usuario.getTipoDocumento());
-                pstmt.setString(2, usuario.getNumDocumento());
-                pstmt.setString(3, usuario.getNombre());
-                pstmt.setString(4, usuario.getCorreo());
-                pstmt.setString(5, usuario.getCelular());
-                pstmt.setString(6, hashedPass);
-                pstmt.setInt(7, usuario.getRol());
+        try (Connection conn = ConectorBaseDatos.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
 
-
-                filasAfectadas = pstmt.executeUpdate();
-
+            while (rs.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setUsuarioId(rs.getInt("usuario_id"));
+                usuario.setNombre(rs.getString("nombre"));
+                usuario.setCorreo(rs.getString("correo"));
+                usuario.setNombreRol(rs.getString("rol"));
+                usuario.setNumDocumento(rs.getString("documento"));
+                usuario.setCelular(rs.getString("celular"));
+                usuarios.add(usuario);
             }
-            ConectorBaseDatos.closeResources(conn, pstmt, null);
-        } catch (SQLException e) {
-            System.err.println("Error al registrar el usuario " + e.getMessage());
-            e.printStackTrace();
-            System.out.println("Saliendo del programa desde dao.UsuarioDAO.registroUsuario");
-            System.exit(0); //en caso de que haya un error en el query, salirse del programa, esto sería un error fatal.
         }
-        return filasAfectadas;
+        return usuarios;
     }
- ***/
+
+    // Metodo para obtener el número de usuarios registrados
+    public int obtenerCantidadUsuarios() throws SQLException {
+        String query = "SELECT COUNT(*) FROM usuario";
+        try (Connection conn = ConectorBaseDatos.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        }
+    }
+
+
 }

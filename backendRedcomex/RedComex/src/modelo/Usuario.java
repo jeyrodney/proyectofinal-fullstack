@@ -9,6 +9,11 @@ public class Usuario {
     private String celular;
     private String passwordUser;
     private int rol;
+    private String nombreRol;
+
+    public Usuario(){
+
+    }
 
     public Usuario(int usuarioId, String tipoDocumento, String numDocumento, String nombre, String correo, String celular, String passwordUser, int rol){
         this.usuarioId = usuarioId;
@@ -34,6 +39,13 @@ public class Usuario {
     public void setPasswordUser(String passwordUser){
         this.passwordUser = passwordUser;
     }
+
+    public void setUsuarioId(int usuarioId){ this.usuarioId = usuarioId; }
+    public void setNombre(String nombre){ this.nombre = nombre; }
+    public void setCorreo(String correo) { this.correo = correo; }
+    public void setNombreRol(String nombreRol){ this.nombreRol = nombreRol; }
+    public void setNumDocumento(String numDocumento){ this.numDocumento = numDocumento; }
+    public void setCelular(String celular){ this.celular = celular; }
 
     public void mostrarDatos(){
         System.out.println("Documento: " + tipoDocumento + " - " + numDocumento);

@@ -1,11 +1,12 @@
 package dao;
 
 import modelo.Arancel;
+import modelo.TopArancel;
 import util.ConectorBaseDatos;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ArancelDAO {
@@ -45,4 +46,26 @@ public class ArancelDAO {
 
         return true;
     }
+
+
+
+    public List<TopArancel> obtenerTopAranceles(Connection connection) throws SQLException {
+        String query = "SELECT pr.nombre AS producto_nombre, pa.nombre AS pais_nombre, a.tasa_arancel " +
+                "FROM arancel a " +
+                "JOIN producto pr ON a.fk_producto = pr.id_producto " +
+                "JOIN pais pa ON a.fk_pais = pa.id_pais " +
+                "ORDER BY a.tasa_arancel DESC " +
+                "LIMIT 5;";
+
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+            List<TopArancel> topAranceles = new ArrayList<>();
+            while (rs.next()) {
+                TopArancel topArancel = new TopArancel(rs.getString("producto_nombre"), rs.getString("pais_nombre"), rs.getDouble("tasa_arancel"));
+                topAranceles.add(topArancel);
+            }
+            return topAranceles;
+        }
+    }
+
+
 }

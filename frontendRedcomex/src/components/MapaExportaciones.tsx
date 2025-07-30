@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useState } from 'react';
+import { Globe, RefreshCw, XCircle } from 'lucide-react'; // Importar iconos de Lucide React
 
 interface VolumenExportacion {
   pais: string;
@@ -14,15 +15,22 @@ interface Coordenada {
   lng: number;
 }
 
-// Reemplazo del icono por defecto de Leaflet
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: new URL('leaflet/dist/images/marker-icon-2x.png', import.meta.url).toString(),
-  iconUrl: new URL('leaflet/dist/images/marker-icon.png', import.meta.url).toString(),
-  shadowUrl: new URL('leaflet/dist/images/marker-shadow.png', import.meta.url).toString(),
-});
+// Reemplazo del icono por defecto de Leaflet para usar los de Leaflet directamente
+// No es necesario modificar L.Icon.Default.prototype._getIconUrl si las URLs son correctas.
+// Sin embargo, si los iconos no se muestran, esta es la forma correcta de asegurar que se carguen.
+// Asegúrate de que las rutas a los iconos sean accesibles desde donde se sirve tu aplicación.
+// Si estás usando Vite, 'import.meta.url' es la forma correcta.
+if (typeof L !== 'undefined') {
+  delete (L.Icon.Default.prototype as any)._getIconUrl;
+  L.Icon.Default.mergeOptions({
+    iconRetinaUrl: new URL('leaflet/dist/images/marker-icon-2x.png', import.meta.url).toString(),
+    iconUrl: new URL('leaflet/dist/images/marker-icon.png', import.meta.url).toString(),
+    shadowUrl: new URL('leaflet/dist/images/marker-shadow.png', import.meta.url).toString(),
+  });
+}
 
-// Mapeo de países a coordenadas manuales
+
+// Mapeo de países a coordenadas manuales (puede crecer, idealmente venir de una DB)
 const coordenadasPorPais: Record<string, Coordenada> = {
   'Afganistán': { lat: 33.9391, lng: 67.7100 },
   'Alemania': { lat: 51.1657, lng: 10.4515 },
@@ -49,42 +57,118 @@ const coordenadasPorPais: Record<string, Coordenada> = {
   'Rusia': { lat: 61.5240, lng: 105.3188 },
   'Sudáfrica': { lat: -30.5595, lng: 22.9375 },
   'Uruguay': { lat: -32.5228, lng: -55.7658 },
-  'Venezuela': { lat: 6.4238, lng: -66.5897 }
+  'Venezuela': { lat: 6.4238, lng: -66.5897 },
+  'Colombia': { lat: 4.5709, lng: -74.2973 } // Añadimos Colombia
 };
 
 export default function MapaExportaciones() {
   const [volumenes, setVolumenes] = useState<VolumenExportacion[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('http://localhost:4567/volumen-exportaciones')
-      .then(res => res.json())
-      .then(data => setVolumenes(data))
-      .catch(err => console.error('Error al cargar datos:', err));
+    const fetchVolumenes = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch('http://localhost:4567/volumen-exportaciones');
+        if (!res.ok) {
+          throw new Error(`Error HTTP: ${res.status}`);
+        }
+        const data = await res.json();
+        setVolumenes(data);
+      } catch (err: any) {
+        console.error('Error al cargar datos de exportación:', err);
+        setError('No se pudieron cargar los datos de exportación. Por favor, inténtalo de nuevo más tarde.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVolumenes();
   }, []);
 
   return (
-    <div className="px-4 mt-12">
-      <h3 className="text-2xl font-semibold text-center text-indigo-700 mb-4">Mapa de Exportaciones por País</h3>
-      <MapContainer center={[20, 0]} zoom={2} style={{ height: '500px', width: '100%' }}>
-        <TileLayer
-        attribution='&copy; <a href="https://carto.com/">Carto</a> contributors'
-        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-        />
+    <div className="bg-gray-50 py-12 px-4"> {/* Fondo y padding consistentes */}
+      <div className="max-w-6xl mx-auto bg-white shadow-xl rounded-lg p-8 border border-emerald-100"> {/* Contenedor con estilo global */}
+        <div className="flex items-center justify-center mb-8">
+          <Globe className="w-10 h-10 text-emerald-600 mr-3" /> {/* Icono representativo */}
+          <h2 className="text-3xl font-bold text-emerald-800">Mapa Global de Exportaciones</h2> {/* Título estilizado */}
+        </div>
 
-        {volumenes.map((item, index) => {
-          const coords = coordenadasPorPais[item.pais];
-          if (!coords) return null;
+        {loading && (
+          <div className="flex flex-col items-center justify-center h-96 bg-gray-100 rounded-lg">
+            <RefreshCw className="w-12 h-12 text-emerald-500 animate-spin mb-4" />
+            <p className="text-lg text-emerald-700">Cargando datos del mapa...</p>
+          </div>
+        )}
 
-          return (
-            <Marker key={index} position={[coords.lat, coords.lng]}>
-              <Popup>
-                <strong>{item.pais}</strong><br />
-                Volumen: {item.volumen}
-              </Popup>
-            </Marker>
-          );
-        })}
-      </MapContainer>
+        {error && (
+          <div className="flex flex-col items-center justify-center h-96 bg-red-100 border border-red-400 text-red-700 rounded-lg p-6">
+            <XCircle className="w-12 h-12 text-red-500 mb-4" />
+            <p className="font-bold text-xl mb-2">¡Error al cargar el mapa!</p>
+            <p className="text-center">{error}</p>
+            <p className="text-sm mt-2">Asegúrate de que el servidor de datos esté funcionando correctamente.</p>
+          </div>
+        )}
+
+        {!loading && !error && (
+          volumenes.length > 0 ? (
+            <div className="border border-gray-300 rounded-lg overflow-hidden shadow-md"> {/* Borde y sombra al mapa */}
+              <MapContainer
+                center={[20, 0]} // Centro del mapa (latitud, longitud)
+                zoom={2}          // Nivel de zoom inicial
+                minZoom={1.5}     // Zoom mínimo para no salirse del globo
+                maxBounds={[[ -90, -180 ], [ 90, 180 ]]} // Limitar el mapa al mundo
+                maxBoundsViscosity={1.0} // Evita que se arrastre el mapa fuera de los límites
+                style={{ height: '600px', width: '100%', borderRadius: '8px' }} // Altura y bordes redondeados
+              >
+                <TileLayer
+                  // Usando un TileLayer más neutral y moderno de CartoDB Positron
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CartoDB</a>'
+                  url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png" // Light map without labels
+                />
+                <TileLayer
+                  // Capa adicional para las etiquetas de los países (para que no se superpongan con los marcadores si usas un basemap sin etiquetas)
+                  attribution='' // No necesitamos atribución duplicada
+                  url="https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png" // Solo etiquetas
+                />
+
+                {volumenes.map((item, index) => {
+                  const coords = coordenadasPorPais[item.pais];
+                  if (!coords) {
+                    console.warn(`Coordenadas no encontradas para el país: ${item.pais}`);
+                    return null; // No renderizar si no hay coordenadas
+                  }
+
+                  // Calcular el tamaño del icono o el color basado en el volumen (ejemplo)
+                  // const markerSize = Math.max(10, Math.min(30, item.volumen / 100)); // Ajusta según tus datos
+                  // const customIcon = new L.Icon({
+                  //   iconUrl: 'URL_DE_TU_ICONO_PERSONALIZADO.png',
+                  //   iconSize: [markerSize, markerSize],
+                  //   iconAnchor: [markerSize / 2, markerSize],
+                  //   popupAnchor: [0, -markerSize],
+                  // });
+
+                  return (
+                    <Marker key={index} position={[coords.lat, coords.lng]} /*icon={customIcon}*/>
+                      <Popup>
+                        <strong className="text-emerald-700">{item.pais}</strong><br />
+                        Volumen de Exportación: <span className="font-semibold">{item.volumen.toLocaleString()}</span> unidades {/* Formato de número */}
+                      </Popup>
+                    </Marker>
+                  );
+                })}
+              </MapContainer>
+            </div>
+          ) : (
+            <div className="text-center text-gray-500 py-20 bg-gray-100 rounded-lg">
+              <p className="text-xl mb-4">No hay datos de exportaciones disponibles para mostrar en el mapa.</p>
+              <Globe className="inline-block w-16 h-16 text-emerald-400" />
+            </div>
+          )
+        )}
+      </div>
     </div>
   );
 }

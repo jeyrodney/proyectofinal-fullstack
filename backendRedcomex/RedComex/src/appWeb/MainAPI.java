@@ -78,7 +78,7 @@ public class MainAPI {
                 return gson.toJson(Map.of("mensaje", "Usuario registrado exitosamente"));
             } else if (resultado == -1) {
                 response.status(409);
-                return gson.toJson(Map.of("error", "El correo ya está registrado"));
+                return gson.toJson(Map.of("error", "El correo o la cédula ya está registrada"));
             } else {
                 response.status(500);
                 return gson.toJson(Map.of("error", "Error al registrar el usuario"));
@@ -275,7 +275,47 @@ public class MainAPI {
             return new Gson().toJson(reportData);
         });
 
+        post("/dashboard/top-empresas", (request, response) -> {
+            try (Connection conn = ConectorBaseDatos.getConnection()) {
+                List<TopEmpresa> topEmpresas = new EmpresaDAO().obtenerTopEmpresasUltimoMes(conn);
+                response.type("application/json");
+                return new Gson().toJson(topEmpresas);
+            }
+        });
 
+        post("/dashboard/top-paises", (request, response) -> {
+            try (Connection conn = ConectorBaseDatos.getConnection()) {
+                List<TopPais> topPaises = new PaisDAO().obtenerTopPaisesUltimoMes(conn);
+                response.type("application/json");
+                return new Gson().toJson(topPaises);
+            }
+        });
+
+        post("/dashboard/top-aranceles", (request, response) -> {
+            try (Connection conn = ConectorBaseDatos.getConnection()) {
+                List<TopArancel> topAranceles = new ArancelDAO().obtenerTopAranceles(conn);
+                response.type("application/json");
+                return new Gson().toJson(topAranceles);
+            }
+        });
+
+        // Reporte de usuarios
+        get("/reportes/usuarios", (req, res) -> {
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            List<Usuario> usuarios = usuarioDAO.obtenerTodosUsuarios();
+            int cantidadUsuarios = usuarioDAO.obtenerCantidadUsuarios();
+            res.status(200);
+            return gson.toJson(Map.of("usuarios", usuarios, "cantidad", cantidadUsuarios));
+        });
+
+        // Reporte de empresas
+        get("/reportes/empresas", (req, res) -> {
+            EmpresaDAO empresaDAO = new EmpresaDAO();
+            List<Empresa> empresas = empresaDAO.obtenerTodasLasEmpresas();
+            int cantidadEmpresas = empresaDAO.obtenerCantidadEmpresas();
+            res.status(200);
+            return gson.toJson(Map.of("empresas", empresas, "cantidad", cantidadEmpresas));
+        });
 
         // Endpoint adicional opcional
         get("/", (req, res) -> gson.toJson(Map.of("status", "API corriendo")));
