@@ -114,7 +114,7 @@ function MenuUsuario() {
         <div className="bg-white p-6 rounded-xl shadow-lg min-h-[calc(100vh-280px)]"> {/* Altura mínima ajustada */}
           {seccionActiva === 'home' && (
             <div className="text-center text-gray-600 py-20 flex flex-col items-center justify-center">
-              <img src="../../public/export.png" alt="Bienvenido al panel de usuario" className="w-64 h-64 mb-8 object-contain" /> {/* Añade una ilustración */}
+              <img src="https://cdn-icons-png.flaticon.com/512/6491/6491491.png" alt="Bienvenido al panel de usuario" className="w-64 h-64 mb-8 object-contain" /> {/* Añade una ilustración */}
               <h2 className="text-3xl font-bold text-emerald-700 mb-4">¡Bienvenido a tu Panel de RedComex!</h2>
               <p className="text-lg max-w-2xl">Aquí podrás gestionar tus empresas, registrar nuevas exportaciones, revisar tu historial y generar reportes detallados. <br />Selecciona una opción en el menú superior para comenzar.</p>
               <BarChart3 className="inline-block w-20 h-20 text-emerald-400 mt-8" />
