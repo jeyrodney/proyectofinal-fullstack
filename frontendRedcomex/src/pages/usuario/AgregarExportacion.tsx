@@ -48,7 +48,7 @@ export default function AgregarExportacion() {
       setLoadingPaises(true);
       setErrorPaises(null);
       try {
-        const res = await fetch('http://localhost:4567/paises');
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/paises`);
         if (!res.ok) throw new Error('Error al cargar países.');
         const data = await res.json();
         setPaises(data);
@@ -64,7 +64,7 @@ export default function AgregarExportacion() {
       setLoadingProductos(true);
       setErrorProductos(null);
       try {
-        const res = await fetch('http://localhost:4567/productos');
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/productos`);
         if (!res.ok) throw new Error('Error al cargar productos.');
         const data = await res.json();
         setProductos(data);
@@ -137,7 +137,7 @@ export default function AgregarExportacion() {
     };
 
     try {
-      const res = await fetch('http://localhost:4567/exportacion', {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/exportacion`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(exportacion)
@@ -166,10 +166,6 @@ export default function AgregarExportacion() {
     } finally {
       setLoadingSubmit(false);
     }
-  };
-
-  const handleCancel = () => {
-    navigate('/menu-usuario'); // Volver al menú de usuario
   };
 
   return (

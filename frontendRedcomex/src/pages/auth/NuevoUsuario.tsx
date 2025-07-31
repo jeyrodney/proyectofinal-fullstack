@@ -60,7 +60,7 @@ const NuevoUsuario = () => {
 
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:4567/registro', {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/registro`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

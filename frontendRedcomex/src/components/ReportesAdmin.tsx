@@ -16,13 +16,13 @@ const ReportesAdmin = () => {
       setError(null);
       try {
         if (opcionSeleccionada === 'usuarios') {
-          const resUsuarios = await fetch('http://localhost:4567/reportes/usuarios');
+          const resUsuarios = await fetch(`${import.meta.env.VITE_API_BASE_URL}/reportes/usuarios`);
           if (!resUsuarios.ok) throw new Error('Error al cargar el reporte de usuarios.');
           const dataUsuarios = await resUsuarios.json();
           setUsuarios(dataUsuarios.usuarios || []); // Asegurar que sea un array
           setCantidadUsuarios(dataUsuarios.cantidad || 0);
         } else if (opcionSeleccionada === 'empresas') {
-          const resEmpresas = await fetch('http://localhost:4567/reportes/empresas');
+          const resEmpresas = await fetch(`${import.meta.env.VITE_API_BASE_URL}/reportes/empresas`);
           if (!resEmpresas.ok) throw new Error('Error al cargar el reporte de empresas.');
           const dataEmpresas = await resEmpresas.json();
           setEmpresas(dataEmpresas.empresas || []); // Asegurar que sea un array

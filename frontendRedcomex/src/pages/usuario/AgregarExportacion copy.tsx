@@ -31,11 +31,11 @@ export default function AgregarExportacion() {
   const usuarioInfo = JSON.parse(localStorage.getItem('usuario') || '{}');
 
   useEffect(() => {
-    fetch('http://localhost:4567/paises')
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/paises`)
       .then(res => res.json())
       .then(data => setPaises(data));
 
-    fetch('http://localhost:4567/productos')
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/productos`)
       .then(res => res.json())
       .then(data => setProductos(data));
 
@@ -60,7 +60,7 @@ export default function AgregarExportacion() {
       fkPais: parseInt(pais)
     };
 
-    const res = await fetch('http://localhost:4567/exportacion', {
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/exportacion`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(exportacion)

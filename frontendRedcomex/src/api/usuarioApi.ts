@@ -1,5 +1,5 @@
 import type { Usuario } from '../interfaces/Usuario';
-const API_URL = 'http://localhost:4567';
+const API_URL = `${import.meta.env.VITE_API_BASE_URL}`;
 /*export async function obtenerCampistas(): Promise<Usuario[]> {
     const res = await fetch(API_URL);
     if (!res.ok) throw new Error('Error al obtener los campistas');

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Building2, Save, XCircle, Loader2 } from 'lucide-react'; // Iconos para el formulario
+import { Building2, Save, Loader2 } from 'lucide-react'; // Iconos para el formulario
 
 export default function AgregarEmpresa() {
   const [nit, setNit] = useState('');
@@ -34,7 +34,7 @@ export default function AgregarEmpresa() {
     };
 
     try {
-      const respuesta = await fetch('http://localhost:4567/empresa', {
+      const respuesta = await fetch(`${import.meta.env.VITE_API_BASE_URL}/empresa`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(nuevaEmpresa),
@@ -59,10 +59,6 @@ export default function AgregarEmpresa() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleCancel = () => {
-    navigate('/menu-usuario'); // Volver al menú de usuario sin guardar
   };
 
   return (

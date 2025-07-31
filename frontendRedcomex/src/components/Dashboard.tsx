@@ -14,7 +14,7 @@ const Dashboard = ({ usuarioId }: { usuarioId: number }) => {
       setError(null);
       try {
         // Obtener datos de las 3 consultas
-        const empresasRes = await fetch('http://localhost:4567/dashboard/top-empresas', {
+        const empresasRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/dashboard/top-empresas`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ const Dashboard = ({ usuarioId }: { usuarioId: number }) => {
         const empresasData = await empresasRes.json();
         setTopEmpresas(empresasData);
 
-        const paisesRes = await fetch('http://localhost:4567/dashboard/top-paises', {
+        const paisesRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/dashboard/top-paises`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const Dashboard = ({ usuarioId }: { usuarioId: number }) => {
         const paisesData = await paisesRes.json();
         setTopPaises(paisesData);
 
-        const arancelesRes = await fetch('http://localhost:4567/dashboard/top-aranceles', {
+        const arancelesRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/dashboard/top-aranceles`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

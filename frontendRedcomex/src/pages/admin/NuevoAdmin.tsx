@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserPlus, Save, XCircle } from 'lucide-react'; // Importar iconos de Lucide React
+import { UserPlus, Save } from 'lucide-react'; // Importar iconos de Lucide React
 
 export default function NuevoAdmin() {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export default function NuevoAdmin() {
     setMessage(null); // Limpiar mensajes previos
 
     try {
-      const res = await fetch('http://localhost:4567/nuevo-admin', {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/nuevo-admin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -63,9 +63,6 @@ export default function NuevoAdmin() {
     }
   };
 
-  const handleCancel = () => {
-    navigate('/menu-admin'); // Volver al menú principal del admin
-  };
 
   return (
     <div className="bg-gray-50 py-10 px-4 flex justify-center items-center"> {/* Centrar el formulario */}
@@ -173,14 +170,7 @@ export default function NuevoAdmin() {
 
           {/* Botones de acción */}
           <div className="flex justify-end space-x-4 pt-4"> {/* Alinear botones a la derecha, más padding superior */}
-            <button
-              type="button" // Cambiado a type="button" para evitar submit por accidente
-              onClick={handleCancel}
-              className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium px-6 py-2 rounded-lg transition-colors duration-200 flex items-center shadow-md"
-              disabled={loading}
-            >
-              <XCircle className="w-5 h-5 mr-2" /> Cancelar
-            </button>
+
             <button
               type="submit"
               className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors duration-200 flex items-center shadow-md"

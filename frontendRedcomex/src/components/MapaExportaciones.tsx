@@ -71,7 +71,7 @@ export default function MapaExportaciones() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch('http://localhost:4567/volumen-exportaciones');
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/volumen-exportaciones`);
         if (!res.ok) {
           throw new Error(`Error HTTP: ${res.status}`);
         }

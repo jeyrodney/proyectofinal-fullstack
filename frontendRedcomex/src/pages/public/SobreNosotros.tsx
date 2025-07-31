@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Building2, Lightbulb, Handshake, BriefcaseBusiness, TrendingUp, DollarSign } from 'lucide-react'; // Añadimos iconos para financiación/créditos
+import { ArrowLeft, Building2, Lightbulb, Handshake, BriefcaseBusiness, DollarSign } from 'lucide-react'; // Añadimos iconos para financiación/créditos
 
 export default function SobreNosotros() {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ export default function SobreNosotros() {
             <div>
               <h2 className="text-2xl font-bold text-emerald-800 mb-3">Nuestra Misión</h2>
               <p className="text-gray-700 leading-relaxed">
-                Nuestra misión es doble: por un lado, **empoderar a las empresas colombianas**, facilitando y optimizando sus procesos de exportación para que alcancen nuevos mercados internacionales. Por otro lado, buscamos ser una **herramienta estratégica para el gobierno nacional**, permitiendo el análisis de datos de exportación para el diseño de políticas de apoyo a las PYMES.
+                Nuestra misión es doble: por un lado, <strong>empoderar a las empresas colombianas</strong>, facilitando y optimizando sus procesos de exportación para que alcancen nuevos mercados internacionales. Por otro lado, buscamos ser una <strong>herramienta estratégica para el gobierno nacional</strong>, permitiendo el análisis de datos de exportación para el diseño de políticas de apoyo a las PYMES.
               </p>
             </div>
           </section>
@@ -46,7 +46,7 @@ export default function SobreNosotros() {
             <div>
               <h2 className="text-2xl font-bold text-gray-800 mb-3">Apoyo Estratégico para PYMES y Gobierno</h2>
               <p className="text-gray-700 leading-relaxed">
-                Más allá de la gestión de exportaciones, nuestra plataforma sirve como un **recurso vital para el gobierno nacional**. Mediante el **análisis profundo de los datos** recopilados, las entidades gubernamentales pueden identificar patrones, detectar necesidades específicas y diseñar programas de **financiación, créditos y capacitaciones dirigidas** que impulsen el crecimiento y la competitividad de las Pequeñas y Medianas Empresas (PYMES) colombianas en el mercado global. Esta sinergia asegura que el apoyo llegue donde más se necesita, fomentando un ecosistema exportador más robusto y equitativo.
+                Más allá de la gestión de exportaciones, nuestra plataforma sirve como un <strong>recurso vital para el gobierno nacional</strong>. Mediante el <strong>análisis profundo de los datos</strong> recopilados, las entidades gubernamentales pueden identificar patrones, detectar necesidades específicas y diseñar programas de <strong>financiación, créditos y capacitaciones dirigidas</strong> que impulsen el crecimiento y la competitividad de las Pequeñas y Medianas Empresas (PYMES) colombianas en el mercado global. Esta sinergia asegura que el apoyo llegue donde más se necesita, fomentando un ecosistema exportador más robusto y equitativo.
               </p>
             </div>
           </section>

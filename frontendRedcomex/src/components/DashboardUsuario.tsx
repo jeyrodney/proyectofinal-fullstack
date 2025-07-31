@@ -17,7 +17,7 @@ interface ExportacionPorPais {
 // Función para obtener los datos de exportaciones por empresa
 const fetchExportacionesPorEmpresa = async (usuarioId: number) => {
   try {
-    const res = await fetch('http://localhost:4567/reportes/exportaciones-por-empresa', {
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/reportes/exportaciones-por-empresa`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ const fetchExportacionesPorEmpresa = async (usuarioId: number) => {
 // Función para obtener los datos de exportaciones por país
 const fetchExportacionesPorPais = async (usuarioId: number) => {
   try {
-    const res = await fetch('http://localhost:4567/reportes/exportaciones-por-pais', {
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/reportes/exportaciones-por-pais`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

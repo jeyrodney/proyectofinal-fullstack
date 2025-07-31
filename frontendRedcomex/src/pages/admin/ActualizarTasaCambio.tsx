@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RefreshCcw, DollarSign, Globe, Save, XCircle } from 'lucide-react'; // Importar iconos
+import { RefreshCcw, DollarSign, Globe, Save } from 'lucide-react'; // Importar iconos
 
 interface Pais {
   idPais: number;
@@ -19,7 +19,7 @@ export default function ActualizarTasaCambio() {
   useEffect(() => {
     const fetchPaises = async () => {
       try {
-        const res = await fetch('http://localhost:4567/paises');
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/paises`);
         if (!res.ok) throw new Error('Error al cargar países.');
         const data = await res.json();
         setPaises(data);
@@ -65,7 +65,7 @@ export default function ActualizarTasaCambio() {
     }
 
     try {
-      const respuesta = await fetch('http://localhost:4567/actualizar-tasa-cambio', {
+      const respuesta = await fetch(`${import.meta.env.VITE_API_BASE_URL}/actualizar-tasa-cambio`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -99,10 +99,6 @@ export default function ActualizarTasaCambio() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleCancel = () => {
-    navigate('/menu-admin');
   };
 
   return (
@@ -166,14 +162,7 @@ export default function ActualizarTasaCambio() {
 
           {/* Botones de acción */}
           <div className="flex justify-end space-x-4 pt-4">
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium px-6 py-2 rounded-lg transition-colors duration-200 flex items-center shadow-md"
-              disabled={loading}
-            >
-              <XCircle className="w-5 h-5 mr-2" /> Cancelar
-            </button>
+
             <button
               type="submit"
               className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors duration-200 flex items-center shadow-md"

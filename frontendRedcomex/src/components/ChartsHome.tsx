@@ -28,8 +28,8 @@ export default function ChartsHome() {
       setError(null);
       try {
         const [topRes, mesRes] = await Promise.all([
-          fetch('http://localhost:4567/top-productos-por-pais'),
-          fetch('http://localhost:4567/volumen-por-mes')
+          fetch(`${import.meta.env.VITE_API_BASE_URL}/top-productos-por-pais`),
+          fetch(`${import.meta.env.VITE_API_BASE_URL}/volumen-por-mes`)
         ]);
 
         if (!topRes.ok) throw new Error('Error al cargar datos de productos por país.');
