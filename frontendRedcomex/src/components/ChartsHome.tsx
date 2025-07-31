@@ -1,5 +1,5 @@
 // src/components/ChartsHome.tsx
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
   LineChart, Line, CartesianGrid, Legend, Cell

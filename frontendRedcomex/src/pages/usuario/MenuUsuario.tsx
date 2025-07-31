@@ -3,7 +3,6 @@ import { LogOut, Building2, Package, History, BarChart3, UserCircle, Home } from
 import AgregarEmpresa from './AgregarEmpresa';
 import AgregarExportacion from './AgregarExportacion';
 import HistorialExportaciones from './HistorialExportaciones';
-import Dashboard from '../../components/DashboardUsuario'; // Importamos el componente de Reportes
 import { useNavigate } from 'react-router-dom';
 import DashboardUsuario from '../../components/DashboardUsuario';
 
