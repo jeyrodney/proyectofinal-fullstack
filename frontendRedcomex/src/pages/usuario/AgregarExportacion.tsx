@@ -81,7 +81,7 @@ export default function AgregarExportacion() {
       setErrorEmpresas(null);
       if (usuarioInfo && usuarioInfo.correo) {
         try {
-          const res = await fetch(`http://localhost:4567/empresas-usuario/${usuarioInfo.correo}`);
+          const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/empresas-usuario/${usuarioInfo.correo}`);
           if (!res.ok) throw new Error('Error al cargar empresas del usuario.');
           const data = await res.json();
           setEmpresas(data);
