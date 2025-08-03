@@ -37,5 +37,5 @@ VITE_API_BASE_URL=https://ec2-54-210-54-104.compute-1.amazonaws.com/api
         password: password123  
 
     Según se desee cualquiera de las 2 opciones, se debe ajustar en el docker-compose.yml en la definición del contenedor de mysql, en la sección:  
- '# Script SQL para inicializar la DB:'
+ '# Script SQL para inicializar la DB:'  
  '- ./Database/redcomexmodi-PreCargaPruebas.sql:/docker-entrypoint-initdb.d/init.sql'
