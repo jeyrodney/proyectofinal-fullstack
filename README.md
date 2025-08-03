@@ -30,8 +30,12 @@ VITE_API_BASE_URL=https://ec2-54-210-54-104.compute-1.amazonaws.com/api
 4. En el directorio Database hay 2 archivos sql:  
 
     **redcomex.sql:** carga la estructura completa de la base de datos solo con el usuario administrador, paises completos en la tabla paises, los 4 productos en la tabla productos y algunos aranceles en la tabla aranceles.  
-    
+
     **redcomexmodi-PreCargaPruebas.sql:** Pre-Carga datos en todas las tablas con las cualaes se puede mirar un ejemplo completo de reportes tanto en las cuentas de Administrador como en las de usuarios. Los passwords de usuarios precargados están compuestos por el NombreEnMinuscula+123.
     Los datos del usuario administrador principal son:  
         correo: administrador@gmail.com  
         password: password123  
+
+    Según se desee cualquiera de las 2 opciones, se debe ajustar en el docker-compose.yml en la definición del contenedor de mysql, en la sección:  
+        # Script SQL para inicializar la DB:
+      - ./Database/redcomexmodi-PreCargaPruebas.sql:/docker-entrypoint-initdb.d/init.sql

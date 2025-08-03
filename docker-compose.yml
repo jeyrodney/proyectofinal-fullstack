@@ -37,7 +37,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}         # Contraseña para el usuario
     volumes:
       - db_data:/var/lib/mysql # Persistencia de datos
-      # Si tienes scripts SQL para inicializar tu DB, puedes montarlos aquí:
+      # Script SQL para inicializar la DB:
       - ./Database/redcomexmodi-PreCargaPruebas.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - redcomex_network
