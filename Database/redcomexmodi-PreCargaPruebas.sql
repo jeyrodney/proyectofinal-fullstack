@@ -301,13 +301,13 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`usuario_id`, `tipo_documento`, `documento`, `nombre`, `correo`, `celular`, `password_user`, `fk_rol`) VALUES
-(1, 'Cédula', '8128407', 'Jeyson Rodney Ulloa', 'redes.ulloa@gmail.com', '3116429452', '$2a$10$b94glGFlBAU9ozrC5lHGhOitrTFNBPcABombHfkqBwECxkhb5EM2C', 1),
+(1, 'Cédula', '8888888', 'Administrador del Sistema', 'administrador@gmail.com', '3117778989', '$2a$10$b94glGFlBAU9ozrC5lHGhOitrTFNBPcABombHfkqBwECxkhb5EM2C', 1),
 (2, 'Cédula', '878945612', 'Mario Lopez', 'mario@gmail.com', '3112454545', '$2a$12$2FUFfE5Oy/dfF9OX0XCtCO5mwetc0m2AKV9bfvvRlZVOcqKf70Aw.', 2),
 (3, 'Cédula', '63214578', 'Ana Gonzalez', 'ana@gmail.com', '3204444444', '$2a$12$v2Rxez/0/IQJGCch1nURsOkf7D7wQF3pR3fenMNXkOTXqyg0FhrTe', 2),
 (4, 'Cédula', '495781235', 'Alejandro Alvarez', 'alejandro@gmail.com', '3104787878', '$2a$12$h6aXget5QpKohJkYIX.ETefOCCPJ05Vpg69YJKr3nKiCqdJGwj1I.', 2),
 (5, 'Cédula', '123456789', 'Jaime Zapata', 'jaime@gmail.com', '3112112244', '$2a$12$hYQVFZRg4jNtVcFrSLzDieIcPTZ5V/P1w8v.EQgsM/OvUDP/o4Kze', 2),
 (6, 'Cédula', '45698753', 'Camilo Mendez', 'camilo@gmail.com', '3214595959', '$2a$12$YRMRKoxJ5n3LwZT2GSCt8uHlPmYBV6MZqXAIlizKjPtx0BOdvL4iq', 2),
-(7, 'Cédula', '46642002', 'Luz Marina Ulloa', 'luz@gmail.com', '3214789988', '$2a$12$yBPqR/6gupeugIM7QMG4He.1Kzkp/WD23I0JxeMNsDRdEr1Rge/BK', 1),
+(7, 'Cédula', '46642000', 'Luz Marina Ochoa', 'luz@gmail.com', '3214789988', '$2a$12$yBPqR/6gupeugIM7QMG4He.1Kzkp/WD23I0JxeMNsDRdEr1Rge/BK', 1),
 (8, 'Cédula', '65479435', 'Armando Mendoza', 'armando@gmail.com', '3216549874', '$2a$12$bfvjo6ZUxFMsVw4/E9iLxer3ugFnI598bD5s2fLtvUT9RK9KTtGQy', 1),
 (11, 'Cédula', '1234654879', 'Zulayda Gutierrez', 'zulayda@gmail.com', '3004521369', '$2a$12$JvcQw42Q0vyfdpDpDxFHhux/ZplJ5f5DOdpb6TD8iXcin8msWexf6', 2),
 (12, 'Cédula', '64444444', 'Melisa Casas', 'melisa@gmail.com', '3212154598', '$2a$12$rLAgoo9WJ5jtl5chM3NoIOCFokhsDZ4fEMit4E0w2/ArmmnZylb0i', 2),

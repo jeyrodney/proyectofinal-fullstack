@@ -86,7 +86,7 @@ INSERT INTO rol (rol) VALUES ('Administrador'), ('Usuario');
 INSERT INTO usuario (
     tipo_documento, documento, nombre, correo, celular, password_user, fk_rol
 ) VALUES (
-    'Cédula', '8128407', 'Jeyson Rodney Ulloa', 'redes.ulloa@gmail.com', '3116429452',
+    'Cédula', '8888888', 'Administrador', 'adminisrtador@gmail.com', '3117778989',
     '$2a$10$b94glGFlBAU9ozrC5lHGhOitrTFNBPcABombHfkqBwECxkhb5EM2C', 1
 );
 

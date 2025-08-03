@@ -15,8 +15,8 @@ services:
   # Servicio de Frontend (Nginx)
   frontend:
     build:
-      context: ./frontendRedcomex
-      dockerfile: Dockerfile.frontend
+      context: ./frontendRedcomex  #El contexto es el directorio del frontend
+      dockerfile: Dockerfile.frontend # Usa el Dockerfile en el frontend
     container_name: frontend-redcomex
     ports:
       # Expone el puerto HTTP y lo redirige a HTTPS
@@ -38,7 +38,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql # Persistencia de datos
       # Si tienes scripts SQL para inicializar tu DB, puedes montarlos aquí:
-      # - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./Database/redcomexmodi-PreCargaPruebas.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - redcomex_network
     #restart: always # Siempre intenta reiniciar si falla
