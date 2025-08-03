@@ -13,9 +13,9 @@ Requerimientos de configuración:
 
 1. Para que el contenedor de mysql corra correctamente, se debe crear un archivo '.env' en el mismo nivel del docker-compose.yml con los datos:
 
-MYSQL_ROOT_PASSWORD=<acá su password root>
-MYSQL_USER=<usuario de lectura>
-MYSQL_PASSWORD=<password usuario lectura>
+MYSQL_ROOT_PASSWORD=<acá su password root>  
+MYSQL_USER=<usuario de lectura>  
+MYSQL_PASSWORD=<password usuario lectura>  
 
 2. Para que el backend en Java pueda conectarse correctamente con la base de datos mysql, es necesario ingresar el password root que se puso en el .env creado, ingresarlo en este archivo /proyectofinal-fullstack/backendRedcomex/RedComex/resources/db.properties en el campo 'db.password='
 
