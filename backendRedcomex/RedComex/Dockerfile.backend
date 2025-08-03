@@ -1,0 +1,36 @@
+# Etapa 1: Compilación
+FROM openjdk:24-jdk-slim AS builder
+
+WORKDIR /build
+
+COPY src/ ./src/
+COPY lib/ ./lib/
+COPY resources/ ./resources/
+
+# Crear carpeta de salida
+RUN mkdir -p out && \
+    find src -name "*.java" > sources.txt && \
+    javac -cp "lib/*" -d out @sources.txt && \
+    mkdir -p tmp/META-INF
+
+# Crear MANIFEST con ruta a dependencias
+RUN echo "Main-Class: appWeb.MainAPI" > tmp/META-INF/MANIFEST.MF && \
+    echo -n "Class-Path: " >> tmp/META-INF/MANIFEST.MF && \
+    for jar in lib/*.jar; do echo -n "$jar " >> tmp/META-INF/MANIFEST.MF; done && \
+    echo "" >> tmp/META-INF/MANIFEST.MF
+
+# Crear el jar con MANIFEST y clases
+RUN jar cfm RedComexAct.jar tmp/META-INF/MANIFEST.MF -C out . -C resources .
+
+# Etapa 2: Imagen final
+FROM openjdk:24-jdk-slim
+
+WORKDIR /app
+
+# Copiar jar y dependencias
+COPY --from=builder /build/RedComexAct.jar .
+COPY --from=builder /build/lib ./lib
+
+EXPOSE 4567
+
+CMD ["java", "-jar", "RedComexAct.jar"]

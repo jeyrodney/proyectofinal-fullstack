@@ -74,8 +74,7 @@ public class PaisDAO {
         String query = "SELECT p.nombre AS pais_nombre, SUM(exp.cantidad) AS total_exportaciones " +
                 "FROM exportacion exp " +
                 "JOIN pais p ON exp.fk_pais = p.id_pais " +
-                "WHERE MONTH(exp.fecha_exp) = MONTH(CURRENT_DATE()) " +
-                "AND YEAR(exp.fecha_exp) = YEAR(CURRENT_DATE()) " +
+                "WHERE YEAR(exp.fecha_exp) = YEAR(CURRENT_DATE()) " +
                 "GROUP BY p.id_pais " +
                 "ORDER BY total_exportaciones DESC " +
                 "LIMIT 5;";

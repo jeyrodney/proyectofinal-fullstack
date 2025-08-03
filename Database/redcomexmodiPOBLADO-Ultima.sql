@@ -1,11 +1,16 @@
+CREATE DATABASE IF NOT EXISTS redcomexmodi
+DEFAULT CHARACTER SET utf8mb4
+COLLATE utf8mb4_general_ci;
+USE redcomexmodi;
+
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 31-07-2025 a las 03:57:12
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Servidor: db
+-- Tiempo de generación: 03-08-2025 a las 04:09:20
+-- Versión del servidor: 8.0.43
+-- Versión de PHP: 8.2.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,10 +33,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `arancel` (
-  `id_arancel` int(11) NOT NULL,
+  `id_arancel` int NOT NULL,
   `tasa_arancel` decimal(5,2) NOT NULL,
-  `fk_pais` int(11) NOT NULL,
-  `fk_producto` int(11) NOT NULL
+  `fk_pais` int NOT NULL,
+  `fk_producto` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -78,14 +83,15 @@ INSERT INTO `arancel` (`id_arancel`, `tasa_arancel`, `fk_pais`, `fk_producto`) V
 (37, 7.00, 21, 4),
 (38, 5.00, 23, 4),
 (39, 8.00, 25, 4),
-(40, 4.00, 10, 2),
+(40, 9.00, 10, 2),
 (41, 13.60, 24, 3),
 (42, 11.00, 13, 2),
 (43, 11.00, 12, 4),
 (44, 9.00, 14, 3),
 (45, 11.00, 16, 3),
 (46, 7.00, 3, 4),
-(47, 8.00, 8, 1);
+(47, 8.00, 8, 1),
+(48, 4.00, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -94,11 +100,11 @@ INSERT INTO `arancel` (`id_arancel`, `tasa_arancel`, `fk_pais`, `fk_producto`) V
 --
 
 CREATE TABLE `empresa` (
-  `id_empresa` int(11) NOT NULL,
-  `nit` varchar(20) NOT NULL,
-  `nombre` varchar(30) NOT NULL,
-  `descripcion` varchar(100) NOT NULL,
-  `fk_usuario` int(11) NOT NULL
+  `id_empresa` int NOT NULL,
+  `nit` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `nombre` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `descripcion` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `fk_usuario` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -113,7 +119,8 @@ INSERT INTO `empresa` (`id_empresa`, `nit`, `nombre`, `descripcion`, `fk_usuario
 (5, '415789456', 'Agroindustria', 'Empresa de Aguacates y Bananos', 6),
 (6, '4986543', 'Café Monteloro', 'Empresa de Café', 3),
 (7, '789456123', 'Flores Santa Elena', 'Empresa de Flores', 2),
-(8, '6124879546', 'Agricolas de Colombia', 'Empresa productora de Bananos y Café', 5);
+(8, '6124879546', 'Agricolas de Colombia', 'Empresa productora de Bananos y Café', 5),
+(9, '9006666666', 'Flores de la comarca', 'Empresa de flores', 16);
 
 -- --------------------------------------------------------
 
@@ -122,18 +129,18 @@ INSERT INTO `empresa` (`id_empresa`, `nit`, `nombre`, `descripcion`, `fk_usuario
 --
 
 CREATE TABLE `exportacion` (
-  `id_exportacion` int(11) NOT NULL,
-  `cantidad` int(11) NOT NULL,
+  `id_exportacion` int NOT NULL,
+  `cantidad` int NOT NULL,
   `fecha_exp` date DEFAULT NULL,
   `valor_unitario` decimal(12,2) DEFAULT NULL,
   `tasa_cambio` decimal(12,6) DEFAULT NULL,
   `total` decimal(14,2) DEFAULT NULL,
   `total_moneda_destino` decimal(14,2) DEFAULT NULL,
   `arancel_cobrado` decimal(12,2) DEFAULT NULL,
-  `estado_exportacion` varchar(30) DEFAULT NULL,
-  `fk_empresa` int(11) NOT NULL,
-  `fk_producto` int(11) NOT NULL,
-  `fk_pais` int(11) NOT NULL
+  `estado_exportacion` varchar(30) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `fk_empresa` int NOT NULL,
+  `fk_producto` int NOT NULL,
+  `fk_pais` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -175,7 +182,11 @@ INSERT INTO `exportacion` (`id_exportacion`, `cantidad`, `fecha_exp`, `valor_uni
 (33, 800, '2025-04-15', 87000.00, 0.000210, 69600000.00, 14616.00, 11136000.00, 'Entregado', 7, 4, 14),
 (34, 1250, '2025-04-15', 9500.00, 0.000210, 11875000.00, 2493.75, 1306250.00, 'Entregado', 5, 3, 16),
 (35, 1400, '2025-05-21', 77000.00, 0.230000, 107800000.00, 24794000.00, 8624000.00, 'Entregado', 5, 1, 8),
-(36, 1400, '2025-05-21', 79000.00, 0.000240, 110600000.00, 26544.00, 12719000.00, 'Entregado', 6, 1, 15);
+(36, 1400, '2025-05-21', 79000.00, 0.000240, 110600000.00, 26544.00, 12719000.00, 'Entregado', 6, 1, 15),
+(37, 999, '2025-08-04', 65000.00, 0.016990, 64935000.00, 1103245.65, 6493500.00, 'Pendiente', 6, 1, 1),
+(38, 200, '2025-07-08', 2500.00, 0.001400, 500000.00, 700.00, 52500.00, 'En proceso', 8, 1, 6),
+(39, 900, '2025-08-06', 50000.00, 0.000240, 45000000.00, 10800.00, 5175000.00, 'Pendiente', 4, 1, 15),
+(40, 800, '2025-07-16', 80000.00, 0.320000, 64000000.00, 20480000.00, 4480000.00, 'Entregado', 9, 4, 3);
 
 -- --------------------------------------------------------
 
@@ -184,11 +195,11 @@ INSERT INTO `exportacion` (`id_exportacion`, `cantidad`, `fecha_exp`, `valor_uni
 --
 
 CREATE TABLE `pais` (
-  `id_pais` int(11) NOT NULL,
-  `nombre` varchar(30) NOT NULL,
-  `codigo_iso` varchar(30) NOT NULL,
-  `moneda_nombre` varchar(30) NOT NULL,
-  `moneda_codigo_iso` varchar(5) NOT NULL,
+  `id_pais` int NOT NULL,
+  `nombre` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `codigo_iso` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `moneda_nombre` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `moneda_codigo_iso` varchar(5) COLLATE utf8mb4_general_ci NOT NULL,
   `tasa_cambio` decimal(12,6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -199,7 +210,7 @@ CREATE TABLE `pais` (
 INSERT INTO `pais` (`id_pais`, `nombre`, `codigo_iso`, `moneda_nombre`, `moneda_codigo_iso`, `tasa_cambio`) VALUES
 (1, 'Afganistán', 'AF', 'Afgani afgano', 'AFN', 0.016990),
 (2, 'Alemania', 'DE', 'Euro', 'EUR', 0.000210),
-(3, 'Argentina', 'AR', 'Peso argentino', 'ARS', 0.310000),
+(3, 'Argentina', 'AR', 'Peso argentino', 'ARS', 0.320000),
 (4, 'Australia', 'AU', 'Dólar australiano', 'AUD', 0.000370),
 (5, 'Bolivia', 'BO', 'Boliviano', 'BOB', 0.001700),
 (6, 'Brasil', 'BR', 'Real brasileño', 'BRL', 0.001400),
@@ -233,10 +244,10 @@ INSERT INTO `pais` (`id_pais`, `nombre`, `codigo_iso`, `moneda_nombre`, `moneda_
 --
 
 CREATE TABLE `producto` (
-  `id_producto` int(11) NOT NULL,
-  `nombre` varchar(30) NOT NULL,
-  `codigo_HS` varchar(20) NOT NULL,
-  `unidad_medida` varchar(20) NOT NULL
+  `id_producto` int NOT NULL,
+  `nombre` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `codigo_HS` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `unidad_medida` varchar(20) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -256,8 +267,8 @@ INSERT INTO `producto` (`id_producto`, `nombre`, `codigo_HS`, `unidad_medida`) V
 --
 
 CREATE TABLE `rol` (
-  `id_rol` int(11) NOT NULL,
-  `rol` varchar(15) NOT NULL
+  `id_rol` int NOT NULL,
+  `rol` varchar(15) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -275,14 +286,14 @@ INSERT INTO `rol` (`id_rol`, `rol`) VALUES
 --
 
 CREATE TABLE `usuario` (
-  `usuario_id` int(11) NOT NULL,
-  `tipo_documento` varchar(20) NOT NULL,
-  `documento` varchar(30) NOT NULL,
-  `nombre` varchar(50) NOT NULL,
-  `correo` varchar(50) NOT NULL,
-  `celular` varchar(30) NOT NULL,
-  `password_user` varchar(255) NOT NULL,
-  `fk_rol` int(11) NOT NULL
+  `usuario_id` int NOT NULL,
+  `tipo_documento` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `documento` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `nombre` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `correo` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `celular` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `password_user` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `fk_rol` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -299,7 +310,11 @@ INSERT INTO `usuario` (`usuario_id`, `tipo_documento`, `documento`, `nombre`, `c
 (7, 'Cédula', '46642002', 'Luz Marina Ulloa', 'luz@gmail.com', '3214789988', '$2a$12$yBPqR/6gupeugIM7QMG4He.1Kzkp/WD23I0JxeMNsDRdEr1Rge/BK', 1),
 (8, 'Cédula', '65479435', 'Armando Mendoza', 'armando@gmail.com', '3216549874', '$2a$12$bfvjo6ZUxFMsVw4/E9iLxer3ugFnI598bD5s2fLtvUT9RK9KTtGQy', 1),
 (11, 'Cédula', '1234654879', 'Zulayda Gutierrez', 'zulayda@gmail.com', '3004521369', '$2a$12$JvcQw42Q0vyfdpDpDxFHhux/ZplJ5f5DOdpb6TD8iXcin8msWexf6', 2),
-(12, 'Cédula', '64444444', 'Melisa Casas', 'melisa@gmail.com', '3212154598', '$2a$12$rLAgoo9WJ5jtl5chM3NoIOCFokhsDZ4fEMit4E0w2/ArmmnZylb0i', 2);
+(12, 'Cédula', '64444444', 'Melisa Casas', 'melisa@gmail.com', '3212154598', '$2a$12$rLAgoo9WJ5jtl5chM3NoIOCFokhsDZ4fEMit4E0w2/ArmmnZylb0i', 2),
+(13, 'Cédula', '43110702', 'Celeny García Ríos', 'lilianagr82@hotmail.com', '3192910897', '$2a$12$ktZ0Njh/EJxtLvvKPOUWHunniCY21did9p4moHx1560JgqXQCriEG', 1),
+(14, 'Cédula', '66666666', 'Alexander Gutierrez', 'alexander@gmail.com', '3234568978', '$2a$12$TIgwFsEggIL3LqikXHic5.jq0q7KQIzDWes0xoSh4zcsLvy9EN6Yq', 2),
+(15, 'Cédula', '777777', 'Julian Giraldo', 'julian@gmail.com', '3332356897', '$2a$12$8Laa67EmShjeaVtJyKY90.U6L30i1b40ZQtYmD6uWVY4dn1PkKWIW', 1),
+(16, 'Cédula', '7777777', 'Pepito Perez', 'pepita@gmail.com', '3214569787', '$2a$12$7tfmaa4GX7UV.MhFopCRvuXsC/TI6hbOSCpNdUAT7VIn.TWia0fta', 2);
 
 --
 -- Índices para tablas volcadas
@@ -367,43 +382,43 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `arancel`
 --
 ALTER TABLE `arancel`
-  MODIFY `id_arancel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id_arancel` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT de la tabla `empresa`
 --
 ALTER TABLE `empresa`
-  MODIFY `id_empresa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_empresa` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `exportacion`
 --
 ALTER TABLE `exportacion`
-  MODIFY `id_exportacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_exportacion` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de la tabla `pais`
 --
 ALTER TABLE `pais`
-  MODIFY `id_pais` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_pais` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_producto` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_rol` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `usuario_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Restricciones para tablas volcadas

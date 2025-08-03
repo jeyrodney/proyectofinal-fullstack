@@ -52,12 +52,12 @@ public class EmpresaDAO {
         return lista;
     }
 
+    //Lista las 5 empresas con mayor numero de exportaiciones en el año actual
     public List<TopEmpresa> obtenerTopEmpresasUltimoMes(Connection connection) throws SQLException {
         String query = "SELECT e.nombre AS empresa_nombre, SUM(exp.cantidad) AS total_exportaciones " +
                 "FROM exportacion exp " +
                 "JOIN empresa e ON exp.fk_empresa = e.id_empresa " +
-                "WHERE MONTH(exp.fecha_exp) = MONTH(CURRENT_DATE()) " +
-                "AND YEAR(exp.fecha_exp) = YEAR(CURRENT_DATE()) " +
+                "WHERE YEAR(exp.fecha_exp) = YEAR(CURRENT_DATE()) " +
                 "GROUP BY e.id_empresa " +
                 "ORDER BY total_exportaciones DESC " +
                 "LIMIT 5;";

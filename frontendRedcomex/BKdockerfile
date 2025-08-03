@@ -1,0 +1,31 @@
+# Stage 1: Build the React application
+FROM node:lts-alpine3.22 AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build
+
+# Stage 2: Serve the application with Nginx
+FROM nginx:alpine
+
+# Copia tu configuración de Nginx personalizada
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Crea un directorio para los certificados y cópialos
+RUN mkdir -p /etc/nginx/certs
+COPY nginx/certs/nginx.crt /etc/nginx/certs/
+COPY nginx/certs/nginx.key /etc/nginx/certs/
+
+# Copia los archivos estáticos de la etapa 'builder'
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Exponer los puertos HTTP y HTTPS
+EXPOSE 80
+EXPOSE 443
+
+# El comando por defecto de Nginx ya está configurado para servir la web.
+CMD ["nginx", "-g", "daemon off;"]

@@ -1,0 +1,66 @@
+services:
+  # Servicio de Backend (Java Spark)
+  backend:
+    build:
+      context: ./backendRedcomex/RedComex # El contexto es el directorio del backend
+      dockerfile: Dockerfile.backend # Usa el Dockerfile en el backend
+    container_name: backend-redcomex
+    networks:
+      - redcomex_network # Asigna a nuestra red interna
+    expose:
+      # No exponemos el puerto 4567 directamente al host
+      # Solo es accesible desde la red interna de Docker
+      - "4567:4567" # Solo para que Docker Compose sepa que este puerto se usa internamente
+
+  # Servicio de Frontend (Nginx)
+  frontend:
+    build:
+      context: ./frontendRedcomex
+      dockerfile: Dockerfile.frontend
+    container_name: frontend-redcomex
+    ports:
+      # Expone el puerto HTTP y lo redirige a HTTPS
+      - "80:80"
+      # Expone el puerto HTTPS
+      - "443:443"
+    networks:
+      - redcomex_network
+    depends_on:
+      - backend # El frontend depende del backend para las llamadas API
+
+  # Servicio de Base de Datos MySQL
+  db:
+    image: mysql:8.0 # Versión de MySQL
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} # Contraseña de root (usa una variable de entorno)
+      MYSQL_USER: ${MYSQL_USER}                 # Usuario para la base de datos
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}         # Contraseña para el usuario
+    volumes:
+      - db_data:/var/lib/mysql # Persistencia de datos
+      # Si tienes scripts SQL para inicializar tu DB, puedes montarlos aquí:
+      # - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - redcomex_network
+    #restart: always # Siempre intenta reiniciar si falla
+
+  # Servicio de phpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin:5.2.2
+    environment:
+      PMA_HOST: db # El nombre del servicio MySQL en la red Docker
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "8080:80" # Expone phpMyAdmin en el puerto 8080 de tu host
+    networks:
+      - redcomex_network
+    depends_on:
+      - db # phpMyAdmin depende de que la base de datos esté lista
+
+# Redes definidas para que los contenedores puedan comunicarse entre sí
+networks:
+  redcomex_network:
+    driver: bridge
+
+# Volúmenes definidos para la persistencia de datos de MySQL
+volumes:
+  db_data:
